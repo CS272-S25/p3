@@ -15,3 +15,6 @@
         ```
     3. Always `git pull origin xxx` before starting to work on the `xxx` branch.
     4. Use `git push origin xxx` to push your changes to the `xxx` branch.
+
+- Reference Links
+    - Update Git branches from master: https://stackoverflow.com/questions/3876977/update-git-branches-from-master 
