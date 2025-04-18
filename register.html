@@ -62,22 +62,28 @@
 
   <div class="register-wrapper">
     <div class="register-box">
-      <img src="images/logo-img.jpg" alt="BadgerCS Logo" class="logo-img">
+      <img src="images/logo-img.jpg" alt="BadgerCS Nexus Logo" class="logo-img">
       <h2>Create an Account</h2>
       <form id="register-form">
         <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
           <input type="email" class="form-control" id="email" placeholder="Email address" required>
+          <div id="emailError" class="invalid-feedback" aria-live="polite"></div>
         </div>
         <div class="mb-3">
+          <label for="nickname" class="form-label">Nickname</label>
           <input type="text" class="form-control" id="nickname" placeholder="Nickname" required>
         </div>
         <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
           <input type="password" class="form-control" id="password" placeholder="Password (min 6 characters)" required>
         </div>
         <div class="mb-3">
+          <label for="major" class="form-label">Your Major</label>
           <input type="text" class="form-control" id="major" placeholder="Your Major" required>
         </div>
         <div class="mb-3">
+          <label for="userType" class="form-label">User Type</label>
           <select class="form-select" id="userType" required>
             <option value="">Select User Type</option>
             <option value="student">Student</option>
@@ -86,7 +92,7 @@
         </div>
         <div class="d-flex justify-content-between">
           <button type="submit" class="btn btn-primary btn-rounded">Register</button>
-          <a href="sign-in.html" class="btn btn-outline-dark btn-rounded">Back to Login</a>
+          <a href="sign-in.html" class="btn btn-outline-dark btn-rounded" title="Go back to the login page">Back to Login</a>
         </div>
       </form>
     </div>

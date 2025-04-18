@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,15 +16,19 @@
     <!-- Favicon -->
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
+
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container">
             <a class="navbar-brand" href="index.html">
-                <img src="images/badgercs-logo.svg" alt="BadgerCS Logo" width="30" height="30" class="d-inline-block align-top">
+                <img src="images/badgercs-logo.svg" alt="BadgerCS Logo" width="30" height="30"
+                    class="d-inline-block align-top">
                 BadgerCS Career Nexus
+                <!-- Sherry: check logo here -->
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -50,14 +55,17 @@
                     <a href="register.html" class="btn btn-danger">Register</a>
                 </div>
                 <div id="userProfile" class="dropdown d-none">
-                    <button class="btn btn-outline-light dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-outline-light dropdown-toggle" type="button" id="profileDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user-circle me-1"></i>
                         <span id="username">User</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                         <li><a class="dropdown-item" href="profile.html">Profile</a></li>
                         <li><a class="dropdown-item" href="dashboard.html">Dashboard</a></li>
-                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                         <li><button class="dropdown-item" id="logoutBtn">Logout</button></li>
                     </ul>
                 </div>
@@ -121,7 +129,8 @@
                                 </div>
                             </div>
                             <button type="button" id="applyFilters" class="btn btn-primary w-100">Apply Filters</button>
-                            <button type="button" id="clearFilters" class="btn btn-outline-secondary w-100 mt-2">Clear All</button>
+                            <button type="button" id="clearFilters" class="btn btn-outline-secondary w-100 mt-2">Clear
+                                All</button>
                         </form>
                     </div>
                 </div>
@@ -133,7 +142,8 @@
                 <div class="card shadow-sm mb-4">
                     <div class="card-body">
                         <div class="input-group">
-                            <input type="text" id="searchJobs" class="form-control" placeholder="Search for jobs, skills, or companies...">
+                            <input type="text" id="searchJobs" class="form-control"
+                                placeholder="Search for jobs, skills, or companies...">
                             <button class="btn btn-primary" type="button" id="searchButton">
                                 <i class="fas fa-search"></i> Search
                             </button>
@@ -210,7 +220,8 @@
                         <li><a href="index.html" class="text-decoration-none text-light">Home</a></li>
                         <li><a href="jobs.html" class="text-decoration-none text-light">Jobs</a></li>
                         <li><a href="forum.html" class="text-decoration-none text-light">Community Forum</a></li>
-                        <li><a href="interview-prep.html" class="text-decoration-none text-light">Interview Prep</a></li>
+                        <li><a href="interview-prep.html" class="text-decoration-none text-light">Interview Prep</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-md-4 mb-3">
@@ -275,6 +286,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Page specific JavaScript -->
     <script src="js/jobs.js"></script>
-    
+
 </body>
+
 </html>
