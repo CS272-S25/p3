@@ -1,3 +1,3 @@
-# CS472 Group Project
+# CS472 Backend
 
-Hello, CS472! This is where you can document your group project.
+The backend is in the this [repository](https://github.com/Jerry2423/badger-cs-backend)
