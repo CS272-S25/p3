@@ -1,12 +1,15 @@
 <!-- register.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register - BadgerCS Nexus</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="./css/sign-in.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/sign-in.css">
   <style>
     body {
       margin: 0;
@@ -17,6 +20,7 @@
       background-position: center;
       overflow: hidden;
     }
+
     .register-wrapper {
       min-height: 100vh;
       display: flex;
@@ -26,6 +30,7 @@
       background-color: rgba(0, 0, 0, 0.6);
       padding: 2rem;
     }
+
     .register-box {
       background: #E8E8E5;
       border-radius: 1.5rem;
@@ -35,20 +40,24 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       text-align: center;
     }
+
     .register-box h2 {
       font-weight: 700;
       margin-bottom: 1.5rem;
     }
+
     .btn-rounded {
       border-radius: 50px;
       padding: 0.5rem 2rem;
     }
+
     .logo-img {
       max-height: 150px;
       margin-bottom: 1rem;
     }
   </style>
 </head>
+
 <body>
 
   <div class="register-wrapper">
@@ -84,7 +93,7 @@
   </div>
 
   <script>
-    document.getElementById('register-form').addEventListener('submit', function(event) {
+    document.getElementById('register-form').addEventListener('submit', function (event) {
       event.preventDefault();
       const email = document.getElementById('email').value;
       const nickname = document.getElementById('nickname').value;
@@ -118,4 +127,5 @@
     });
   </script>
 </body>
+
 </html>
