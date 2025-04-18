@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Details - BadgerCS Career Nexus</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/job-detail.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="images/badgercs-logo.svg" alt="BadgerCS Logo" width="30" height="30">
+        BadgerCS Career Nexus
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="jobs.html">Jobs</a></li>
+          <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="forum.html">Community</a></li>
+          <li class="nav-item"><a class="nav-link" href="interview-prep.html">Interview Prep</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container my-4">
+    <div class="row">
+      <div class="col-lg-8">
+        <div id="jobDetailLoader" class="text-center py-5">
+          <div class="spinner-border text-primary" role="status"></div>
+        </div>
+        <div id="jobDetailContent" class="d-none">
+          <div class="d-flex align-items-center mb-4">
+            <img id="companyLogo" class="me-3" width="64" height="64">
+            <div>
+              <h1 id="jobTitle" class="h3 mb-1"></h1>
+              <p class="mb-0">
+                <span id="companyName" class="fw-bold"></span> ・ <span id="jobLocation"></span>
+              </p>
+            </div>
+          </div>
+          <div class="row mb-4">
+            <div class="col-md-3 col-6"><span class="text-muted">Salary</span><br><span id="jobSalary" class="fw-bold"></span></div>
+            <div class="col-md-3 col-6"><span class="text-muted">Job Type</span><br><span id="jobType" class="fw-bold"></span></div>
+            <div class="col-md-3 col-6"><span class="text-muted">Experience</span><br><span id="jobExperience" class="fw-bold"></span></div>
+            <div class="col-md-3 col-6"><span class="text-muted">Posted</span><br><span id="jobPostedDate" class="fw-bold"></span></div>
+          </div>
+          <div id="jobDescription" class="mb-4"></div>
+          <h5>Required Skills</h5><ul id="skillsList"></ul>
+          <h5>Qualifications</h5><ul id="qualificationsList"></ul>
+          <h5 class="mt-4">Company Info</h5>
+          <p id="companyDescription"></p>
+          <p><strong>Industry:</strong> <span id="companyIndustry"></span></p>
+          <p><strong>Size:</strong> <span id="companySize"></span></p>
+          <p><strong>Website:</strong> <a id="companyWebsite" href="#" target="_blank"></a></p>
+          <h5 class="mt-4">Company Insights</h5>
+          <p><strong>Employee Rating:</strong> <span id="employeeRating"></span></p>
+          <p><strong>Work-Life Balance:</strong> <span id="workLifeBalance"></span></p>
+          <p><strong>Career Growth:</strong> <span id="careerGrowth"></span></p>
+          <p><strong>Interview Difficulty:</strong> <span id="interviewDifficulty"></span></p>
+          <h5 class="mt-4">Interview Questions</h5>
+          <ul id="interviewQuestions"></ul>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <h5>Similar Jobs</h5>
+        <div id="similarJobsList" class="mb-4">
+          <div class="spinner-border text-primary my-3" role="status"></div>
+        </div>
+        <h5>Company Insights</h5>
+        <div id="companyInsights">
+          <div id="companyInsightsLoader" class="spinner-border text-primary my-3" role="status"></div>
+        </div>
+        <div class="mt-4">
+          <label for="shareJobLink" class="form-label">Share Job</label>
+          <input id="shareJobLink" class="form-control" type="text" readonly>
+          <button class="btn btn-sm btn-outline-primary mt-2" id="copyLinkBtn">Copy Link</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/job-detail.js"></script>
+</body>
+</html>

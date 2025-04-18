@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Listings - BadgerCS Career Nexus</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="css/global.css">
+    <!-- Page specific CSS -->
+    <link rel="stylesheet" href="css/jobs.css">
+    <!-- Favicon -->
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="images/badgercs-logo.svg" alt="BadgerCS Logo" width="30" height="30" class="d-inline-block align-top">
+                BadgerCS Career Nexus
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="jobs.html">Jobs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="forum.html">Community</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="interview-prep.html">Interview Prep</a>
+                    </li>
+                </ul>
+                <!-- Login/Register or User Profile -->
+                <div id="authButtons" class="d-flex">
+                    <a href="login.html" class="btn btn-outline-light me-2">Login</a>
+                    <a href="register.html" class="btn btn-danger">Register</a>
+                </div>
+                <div id="userProfile" class="dropdown d-none">
+                    <button class="btn btn-outline-light dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle me-1"></i>
+                        <span id="username">User</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                        <li><a class="dropdown-item" href="dashboard.html">Dashboard</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><button class="dropdown-item" id="logoutBtn">Logout</button></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="container my-4">
+        <div class="row">
+            <!-- Sidebar / Filters -->
+            <div class="col-lg-3 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Filters</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="jobFilters">
+                            <div class="mb-3">
+                                <label for="jobType" class="form-label">Job Type</label>
+                                <select class="form-select" id="jobType">
+                                    <option value="">All Types</option>
+                                    <option value="Full-time">Full-time</option>
+                                    <option value="Part-time">Part-time</option>
+                                    <option value="Internship">Internship</option>
+                                    <option value="Contract">Contract</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Location</label>
+                                <select class="form-select" id="location">
+                                    <option value="">All Locations</option>
+                                    <option value="Remote">Remote</option>
+                                    <option value="On-site">On-site</option>
+                                    <option value="Hybrid">Hybrid</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="companyName" class="form-label">Company</label>
+                                <input type="text" class="form-control" id="companyName" placeholder="Company name...">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Experience Level</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="Entry" id="entryLevel">
+                                    <label class="form-check-label" for="entryLevel">
+                                        Entry Level
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="Mid" id="midLevel">
+                                    <label class="form-check-label" for="midLevel">
+                                        Mid Level
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="Senior" id="seniorLevel">
+                                    <label class="form-check-label" for="seniorLevel">
+                                        Senior Level
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="button" id="applyFilters" class="btn btn-primary w-100">Apply Filters</button>
+                            <button type="button" id="clearFilters" class="btn btn-outline-secondary w-100 mt-2">Clear All</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Listings -->
+            <div class="col-lg-9">
+                <!-- Search Bar -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <div class="input-group">
+                            <input type="text" id="searchJobs" class="form-control" placeholder="Search for jobs, skills, or companies...">
+                            <button class="btn btn-primary" type="button" id="searchButton">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Categories -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                        <h5 class="mb-0">Internship picks for software developers</h5>
+                        <a href="#" class="text-decoration-none">View more</a>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="row g-0" id="internshipListings">
+                            <!-- Job listings will be loaded here by JavaScript -->
+                            <div class="col-12 text-center py-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Full-time Jobs -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                        <h5 class="mb-0">Good fits for software developers and engineers</h5>
+                        <a href="#" class="text-decoration-none">View more</a>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="row g-0" id="fullTimeListings">
+                            <!-- Job listings will be loaded here by JavaScript -->
+                            <div class="col-12 text-center py-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saved Jobs -->
+                <div class="card shadow-sm mb-4" id="savedJobsSection">
+                    <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                        <h5 class="mb-0">Saved Jobs</h5>
+                        <a href="#" id="clearSavedJobs" class="text-decoration-none">Clear All</a>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="row g-0" id="savedJobsListings">
+                            <!-- Saved jobs will be loaded here by JavaScript -->
+                            <div class="col-12 py-4 text-center" id="noSavedJobs">
+                                <p class="text-muted">You haven't saved any jobs yet.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5>BadgerCS Career Nexus</h5>
+                    <p class="text-muted">Your specialized platform for CS career resources at UW-Madison.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-decoration-none text-light">Home</a></li>
+                        <li><a href="jobs.html" class="text-decoration-none text-light">Jobs</a></li>
+                        <li><a href="forum.html" class="text-decoration-none text-light">Community Forum</a></li>
+                        <li><a href="interview-prep.html" class="text-decoration-none text-light">Interview Prep</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Contact</h5>
+                    <p><i class="fas fa-envelope me-2"></i> contact@badgercs.wisc.edu</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i> 1210 W. Dayton St, Madison, WI</p>
+                    <div class="d-flex mt-3">
+                        <a href="#" class="text-light me-3"><i class="fab fa-github fa-lg"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-linkedin fa-lg"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-instagram fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2025 BadgerCS Career Nexus. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="text-light text-decoration-none me-3">Privacy Policy</a>
+                    <a href="#" class="text-light text-decoration-none">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Job Listing Template -->
+    <template id="jobCardTemplate">
+        <div class="col-md-4 job-card">
+            <div class="card m-2 h-100 position-relative">
+                <div class="position-absolute top-0 end-0 m-2">
+                    <button class="btn btn-sm btn-outline-secondary bookmark-btn border-0" data-job-id="">
+                        <i class="far fa-bookmark"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="company-logo me-3">
+                            <img src="" alt="Company Logo" class="img-fluid" width="48" height="48">
+                        </div>
+                        <div>
+                            <h6 class="company-name text-muted mb-0"></h6>
+                            <span class="badge bg-light text-dark company-industry"></span>
+                        </div>
+                    </div>
+                    <h5 class="job-title mb-2"></h5>
+                    <p class="job-salary mb-1"></p>
+                    <p class="job-type mb-3"></p>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted job-location"></span>
+                        <span class="text-muted job-date"></span>
+                    </div>
+                </div>
+                <div class="card-footer bg-white border-top-0">
+                    <a href="" class="stretched-link view-job-link"></a>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Page specific JavaScript -->
+    <script src="js/jobs.js"></script>
+    
+</body>
+</html>

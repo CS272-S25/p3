@@ -1,0 +1,228 @@
+{
+    "jobs": [
+      {
+        "id": "job1",
+        "title": "Software Engineering Intern",
+        "company": "Tinuiti",
+        "companyLogo": "https://via.placeholder.com/48",
+        "industry": "Advertising, PR & Marketing",
+        "salary": "$9K/mo+",
+        "jobType": "Full-time job",
+        "location": "United States (Remote)",
+        "date": "1 week ago",
+        "postedDate": "April 10, 2025",
+        "isNew": false,
+        "tags": ["Python", "JavaScript", "React"],
+        "experience": "Entry-Level",
+        "description": "<h4>About the Role</h4><p>Tinuiti is seeking a talented Software Engineering Intern to join our growing development team for the summer. This is an excellent opportunity for a computer science student to gain hands-on experience in a fast-paced advertising technology environment.</p><p>As a Software Engineering Intern, you will work closely with our engineering team to develop and maintain web applications, assist in building new features, and troubleshoot issues in our proprietary marketing platform.</p><h4>What You'll Do</h4><ul><li>Collaborate with senior engineers to design and implement new features</li><li>Write clean, efficient, and well-documented code</li><li>Participate in code reviews and team meetings</li><li>Debug and fix issues in existing applications</li><li>Assist in testing and quality assurance processes</li><li>Learn and apply best practices in software development</li></ul>",
+        "skills": [
+          "Proficiency in Python, JavaScript, and/or React",
+          "Knowledge of web development fundamentals (HTML, CSS)",
+          "Basic understanding of databases and SQL",
+          "Familiarity with version control systems (Git)",
+          "Strong problem-solving abilities",
+          "Excellent communication and teamwork skills"
+        ],
+        "qualifications": [
+          "Currently enrolled in a Bachelor's or Master's degree in Computer Science or related field",
+          "Minimum GPA of 3.0",
+          "Previous coursework in data structures, algorithms, and web development",
+          "Previous internship or project experience is a plus",
+          "Interest in advertising technology and marketing analytics"
+        ],
+        "companyDescription": "Tinuiti is the largest independent performance marketing firm across Streaming TV and the Triopoly of Google, Meta, Amazon, with nearly $3 billion in digital media under management and over 1,000 employees.",
+        "companySize": "500-1,000 employees",
+        "companyWebsite": "https://www.tinuiti.com",
+        "employeeRating": 4.2,
+        "workLifeBalance": 4.0,
+        "careerGrowth": 4.3,
+        "interviewDifficulty": 3.5,
+        "interviewQuestions": [
+          "Describe a project you've worked on that you're proud of.",
+          "What is your experience with Python and JavaScript?",
+          "How would you approach debugging a complex issue?",
+          "Explain how you would implement a simple web application from scratch."
+        ]
+      },
+      {
+        "id": "job2",
+        "title": "Software Engineer Intern",
+        "company": "Structured Labs",
+        "companyLogo": "https://via.placeholder.com/48",
+        "industry": "Internet & Software",
+        "salary": "$20/hr",
+        "jobType": "Full-time job",
+        "location": "Remote",
+        "date": "1 week ago",
+        "postedDate": "April 11, 2025",
+        "isNew": false,
+        "tags": ["Java", "Spring", "SQL"],
+        "experience": "Entry-Level",
+        "description": "<h4>About Structured Labs</h4><p>Structured Labs is an innovative software company specializing in AI-powered data analysis tools. We're looking for talented interns to join our engineering team and help build the next generation of data processing solutions.</p><h4>Internship Overview</h4><p>As a Software Engineer Intern, you will work directly with our engineering team on real projects that impact our products and customers. This is a hands-on role where you'll learn modern software development practices while contributing to our codebase.</p><h4>Responsibilities</h4><ul><li>Develop and maintain backend services using Java and Spring</li><li>Implement and optimize database queries</li><li>Assist in designing and implementing new features</li><li>Write unit and integration tests</li><li>Participate in agile development processes</li><li>Document code and contribute to technical documentation</li></ul>",
+        "skills": [
+          "Java programming experience",
+          "Familiarity with Spring Framework",
+          "Basic SQL knowledge",
+          "Understanding of RESTful APIs",
+          "Experience with version control systems (Git)",
+          "Problem-solving and analytical skills",
+          "Good communication abilities"
+        ],
+        "qualifications": [
+          "Currently pursuing a BS/MS in Computer Science or related field",
+          "GPA of 3.2 or higher",
+          "Coursework in data structures, algorithms, and database systems",
+          "Previous project experience (academic or personal)",
+          "Ability to work 40 hours per week during the internship period"
+        ],
+        "companyDescription": "Structured Labs is a fast-growing startup that specializes in creating advanced data processing tools using artificial intelligence and machine learning. Our flagship product helps businesses analyze and extract insights from unstructured data sources.",
+        "companySize": "50-200 employees",
+        "companyWebsite": "https://www.structuredlabs.com",
+        "employeeRating": 4.5,
+        "workLifeBalance": 4.2,
+        "careerGrowth": 4.7,
+        "interviewDifficulty": 4.0,
+        "interviewQuestions": [
+          "What projects have you worked on that involved Java or Spring?",
+          "How would you design a simple REST API for a todo list application?",
+          "Explain how you would approach optimizing a slow database query.",
+          "Describe a challenging programming problem you've solved."
+        ]
+      },
+      {
+        "id": "job3",
+        "title": "Software Engineering Intern",
+        "company": "Telguard",
+        "companyLogo": "https://via.placeholder.com/48",
+        "industry": "Telecommunications",
+        "salary": "$40-45K/hr",
+        "jobType": "Full-time job",
+        "location": "Atlanta, GA (On-site)",
+        "date": "4 days ago",
+        "postedDate": "April 13, 2025",
+        "isNew": true,
+        "tags": ["C++", "Backend", "Cloud"],
+        "experience": "Entry-Level",
+        "description": "<h4>About the Opportunity</h4><p>Telguard is seeking a Software Engineering Intern to join our development team in Atlanta. This internship offers an excellent opportunity to gain hands-on experience in telecommunications software development while working on real-world projects.</p><h4>What You'll Be Doing</h4><p>As a Software Engineering Intern, you will work with our development team on various aspects of our cellular communication and security solutions. You'll be involved in coding, testing, and debugging software applications while learning from experienced engineers.</p><h4>Key Responsibilities</h4><ul><li>Assist in developing and maintaining C++ applications for our telecommunications systems</li><li>Participate in backend development for cloud-based security solutions</li><li>Help with code testing and quality assurance</li><li>Document technical specifications and processes</li><li>Collaborate with cross-functional teams to understand requirements</li><li>Contribute to code reviews and improvement initiatives</li></ul>",
+        "skills": [
+          "Proficiency in C++ programming",
+          "Knowledge of cloud technologies",
+          "Understanding of data structures and algorithms",
+          "Familiarity with Unix/Linux operating systems",
+          "Basic networking concepts",
+          "Good problem-solving abilities"
+        ],
+        "qualifications": [
+          "Currently pursuing a degree in Computer Science, Software Engineering, or related field",
+          "Completed coursework in programming, data structures, and computer networks",
+          "Strong academic performance (GPA 3.0+)",
+          "Prior project experience with C++ is a plus",
+          "Ability to work on-site in Atlanta, GA",
+          "Authorization to work in the United States"
+        ],
+        "companyDescription": "Telguard is a leading provider of cellular alarm communications, remote monitoring, and control solutions for security systems and IoT applications. Our products connect thousands of homes and businesses to central monitoring stations across North America.",
+        "companySize": "200-500 employees",
+        "companyWebsite": "https://www.telguard.com",
+        "employeeRating": 4.0,
+        "workLifeBalance": 3.8,
+        "careerGrowth": 3.9,
+        "interviewDifficulty": 3.7,
+        "interviewQuestions": [
+          "Describe your experience with C++ programming.",
+          "How would you approach debugging a memory leak in a C++ application?",
+          "What interests you about telecommunications and security software?",
+          "Explain a challenging project you've worked on and how you overcame obstacles."
+        ]
+      },
+      {
+        "id": "job4",
+        "title": "Software Development Internship",
+        "company": "C-Motive Technologies",
+        "companyLogo": "https://via.placeholder.com/48",
+        "industry": "Other Industries",
+        "salary": "$15/hr",
+        "jobType": "Part-time job",
+        "location": "Middleton, WI (On-site)",
+        "date": "5 days ago",
+        "postedDate": "April 12, 2025",
+        "isNew": true,
+        "tags": ["Web Development", "JavaScript", "Node.js"],
+        "experience": "Entry-Level",
+        "description": "<h4>About the Internship</h4><p>C-Motive Technologies is seeking a motivated Software Development Intern to join our growing engineering team. This part-time position offers hands-on experience in web development and application programming for our innovative electric motor technology company.</p><h4>Responsibilities</h4><ul><li>Assist in developing and maintaining web applications using modern JavaScript frameworks</li><li>Support our engineering team with software tools and automation</li><li>Help create intuitive user interfaces for internal applications</li><li>Participate in code reviews and testing</li><li>Document code and processes</li><li>Learn about software development in a high-tech engineering environment</li></ul>",
+        "skills": [
+          "JavaScript programming experience",
+          "Familiarity with Node.js",
+          "Understanding of HTML, CSS, and responsive design",
+          "Basic knowledge of database concepts",
+          "Strong problem-solving abilities",
+          "Good communication skills"
+        ],
+        "qualifications": [
+          "Currently pursuing a degree in Computer Science, Software Engineering, or related field",
+          "Completed relevant coursework in web development or programming",
+          "Ability to work part-time during the academic year",
+          "Interest in technology and engineering applications",
+          "Strong analytical and organizational skills",
+          "Reliable transportation to our Middleton, WI location"
+        ],
+        "companyDescription": "C-Motive Technologies is an innovative company developing next-generation electric motor technology that is more efficient, lighter, and less expensive than conventional motors. Our patented electrostatic motor technology enables new applications in transportation, robotics, and renewable energy.",
+        "companySize": "10-50 employees",
+        "companyWebsite": "https://www.c-motive.com",
+        "employeeRating": 4.3,
+        "workLifeBalance": 4.5,
+        "careerGrowth": 4.0,
+        "interviewDifficulty": 3.2,
+        "interviewQuestions": [
+          "Tell us about a web application you've built.",
+          "How would you approach creating a dashboard interface for monitoring data?",
+          "What interests you about working at a technology startup?",
+          "How do you prioritize tasks when working on multiple projects?"
+        ]
+      },
+      {
+        "id": "job5",
+        "title": "Software Engineer (Intern)",
+        "company": "comma.ai",
+        "companyLogo": "https://via.placeholder.com/48",
+        "industry": "Internet & Software",
+        "salary": "$6-7K/mo",
+        "jobType": "Full-time job",
+        "location": "San Diego, CA (On-site)",
+        "date": "2 weeks ago",
+        "postedDate": "April 3, 2025",
+        "isNew": false,
+        "tags": ["Machine Learning", "Python", "Computer Vision"],
+        "experience": "Entry-Level",
+        "description": "<h4>About comma.ai</h4><p>comma.ai is revolutionizing driving with our advanced driver assistance technology. Our mission is to solve self-driving cars while delivering great driver assistance features today. We're looking for talented Software Engineer Interns to join our team and help build the future of transportation.</p><h4>What You'll Do</h4><ul><li>Work on real projects that impact our autonomous driving technology</li><li>Develop and optimize machine learning algorithms for computer vision</li><li>Implement and test software features for our driver assistance platform</li><li>Collaborate with a team of world-class engineers and researchers</li><li>Participate in code reviews and engineering discussions</li><li>Learn cutting-edge technologies in autonomous systems</li></ul>",
+        "skills": [
+          "Strong Python programming skills",
+          "Experience with machine learning frameworks (PyTorch, TensorFlow)",
+          "Computer vision knowledge",
+          "Data analysis and processing",
+          "Experience with Linux environments",
+          "Strong mathematical and statistical background"
+        ],
+        "qualifications": [
+          "Currently pursuing a degree in Computer Science, Robotics, or related field",
+          "Prior experience with autonomous systems or computer vision projects",
+          "Strong academic performance",
+          "Portfolio of personal or academic coding projects",
+          "Passion for self-driving technology",
+          "Ability to work full-time during the internship period in San Diego"
+        ],
+        "companyDescription": "comma.ai is a technology company focused on developing advanced driver assistance systems and autonomous driving technology. Our open-source approach and innovative solutions are making safe driving technology more accessible and effective.",
+        "companySize": "50-200 employees",
+        "companyWebsite": "https://www.comma.ai",
+        "employeeRating": 4.6,
+        "workLifeBalance": 4.0,
+        "careerGrowth": 4.8,
+        "interviewDifficulty": 4.5,
+        "interviewQuestions": [
+          "Explain a computer vision algorithm you've implemented.",
+          "How would you detect lane lines in a dynamic driving environment?",
+          "Describe a challenging machine learning problem you've solved.",
+          "What interests you most about autonomous vehicle technology?"
+        ]
+      }
+    ]
+  }

@@ -1,0 +1,13 @@
+
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="12" fill="#c5050c" />
+  <text x="50%" y="28%" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="18" font-weight="bold" fill="white">
+    🦡
+  </text>
+  <text x="50%" y="62%" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="white">
+    Badger
+  </text>
+  <text x="50%" y="82%" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="white">
+    CS
+  </text>
+</svg>

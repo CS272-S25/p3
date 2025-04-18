@@ -1,0 +1,418 @@
+/* 
+   BadgerCS Career Nexus - Job Detail Page Stylesheet
+   This stylesheet contains styles specific to the job detail page
+*/
+
+/* Company Logo */
+#companyLogo {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    padding: 8px;
+    border: 1px solid #e9ecef;
+}
+
+/* Job Title */
+#jobTitle {
+    color: #212529;
+    font-weight: 700;
+}
+
+/* Job Overview Section */
+.job-overview-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.job-overview-item .label {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+}
+
+.job-overview-item .value {
+    font-weight: 600;
+    color: #212529;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+#saveJobBtn.active {
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    color: #856404;
+}
+
+#saveJobBtn.active .far.fa-bookmark {
+    display: none;
+}
+
+#saveJobBtn.active .fas.fa-bookmark {
+    display: inline-block;
+}
+
+#saveJobBtn:not(.active) .fas.fa-bookmark {
+    display: none;
+}
+
+/* Description Tabs */
+.nav-tabs .nav-link {
+    color: #495057;
+    font-weight: 500;
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--badger-red);
+    border-bottom-color: var(--badger-red);
+    font-weight: 600;
+}
+
+/* Job Description Content */
+#jobDescription {
+    line-height: 1.6;
+}
+
+#jobDescription h1, 
+#jobDescription h2, 
+#jobDescription h3, 
+#jobDescription h4, 
+#jobDescription h5, 
+#jobDescription h6 {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+#jobDescription ul, 
+#jobDescription ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+#jobDescription li {
+    margin-bottom: 0.5rem;
+}
+
+#jobDescription p {
+    margin-bottom: 1rem;
+}
+
+/* Skills and Qualifications Lists */
+#skillsList, #qualificationsList {
+    padding-left: 1.5rem;
+}
+
+#skillsList li, #qualificationsList li {
+    margin-bottom: 0.5rem;
+}
+
+/* Similar Jobs List */
+.similar-job-item {
+    padding: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.similar-job-item:hover {
+    background-color: #f8f9fa;
+}
+
+.similar-job-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: #212529;
+}
+
+.similar-job-company {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+}
+
+.similar-job-details {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+/* Company Insights */
+.insight-rating {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.insight-rating .rating-label {
+    color: #212529;
+}
+
+.insight-rating .rating-stars {
+    color: #ffc107;
+}
+
+.interview-question {
+    margin-bottom: 0.5rem;
+}
+
+/* Share Modal */
+.share-options {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.share-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.share-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+    transition: transform 0.2s ease;
+}
+
+.share-option:hover .share-icon {
+    transform: scale(1.1);
+}
+
+.share-label {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+/* Application Tips */
+.application-tip {
+    margin-bottom: 0.75rem;
+}
+
+.application-tip-icon {
+    color: #28a745;
+    margin-right: 0.5rem;
+}
+
+/* Application Form */
+.form-label.required::after {
+    content: " *";
+    color: var(--badger-red);
+}
+
+/* Loading Spinner */
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.spinner-container {
+    text-align: center;
+}
+
+.spinner-text {
+    margin-top: 1rem;
+    font-weight: 500;
+}
+
+/* Copy Link Button */
+.copy-link-btn {
+    position: relative;
+}
+
+.copy-success-tooltip {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #28a745;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.copy-success-tooltip.show {
+    opacity: 1;
+}
+
+.copy-success-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #28a745 transparent transparent transparent;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767.98px) {
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .action-buttons .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    #companyLogo {
+        width: 48px;
+        height: 48px;
+    }
+    
+    #jobTitle {
+        font-size: 1.5rem;
+    }
+    
+    .job-overview-item {
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* Animation for Save Job Button */
+@keyframes bookmark-pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+#saveJobBtn.active .fas.fa-bookmark {
+    animation: bookmark-pulse 0.5s ease-in-out;
+}
+
+/* Company Tab Styling */
+.company-info-section {
+    margin-bottom: 1.5rem;
+}
+
+.company-info-section h5 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+}
+
+.company-stat {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.company-stat-icon {
+    margin-right: 0.75rem;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    border-radius: 50%;
+    color: var(--badger-red);
+}
+
+.company-link {
+    color: var(--badger-link);
+    text-decoration: none;
+}
+
+.company-link:hover {
+    text-decoration: underline;
+}
+
+/* Application Timeline */
+.application-timeline {
+    position: relative;
+    padding-left: 2rem;
+    margin-top: 1.5rem;
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 1.5rem;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -2rem;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background-color: #dee2e6;
+}
+
+.timeline-item:last-child::before {
+    height: 0;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -2.25rem;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--badger-red);
+    border: 2px solid white;
+}
+
+.timeline-date {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+}
+
+.timeline-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.timeline-content {
+    font-size: 0.9rem;
+}
+
+/* Active Timeline Item */
+.timeline-item.active::before {
+    background-color: var(--badger-red);
+}
+
+.timeline-item.active .timeline-dot {
+    background-color: white;
+    border-color: var(--badger-red);
+}
+
+.timeline-item.active .timeline-title {
+    color: var(--badger-red);
+}
