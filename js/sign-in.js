@@ -32,7 +32,9 @@ document.getElementById('signin-form').addEventListener('submit', function(event
       return response.json();
     })
     .then(data => {
-      alert(`Login successful! User ID: ${data.userId}`);
+      // alert(`Login successful! User ID: ${data.userId}`);
+      localStorage.setItem('userId', data.userId);      
+      window.location.href = 'jobs.html';
     })
     .catch(error => {
       console.error("Error during API request:", error);
