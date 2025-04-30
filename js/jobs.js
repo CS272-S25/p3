@@ -159,25 +159,44 @@ function checkLoginStatus() {
     const userId = localStorage.getItem('userId');
     const authButtonsEl = document.getElementById('authButtons');
     const userProfileEl = document.getElementById('userProfile');
-    const usernameEl = document.getElementById('username');
     
     if (userId) {
-        // User is logged in - hide login/register buttons, show user profile
+        // User is logged in - hide login/register buttons, show user profile section
         if (authButtonsEl) authButtonsEl.classList.add('d-none');
-        if (userProfileEl) userProfileEl.classList.remove('d-none');
         
-        // Set username (in a real app, you would fetch the user's name from the server)
-        if (usernameEl) {
-            usernameEl.textContent = `User_${userId.substring(0, 4)}`;
-        }
-        
-        // Add event listener to logout button
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
+        // Replace the user profile dropdown with direct links
+        if (userProfileEl) {
+            // Clear existing content
+            userProfileEl.innerHTML = '';
+            userProfileEl.classList.remove('d-none');
+            userProfileEl.classList.remove('dropdown');
+            
+            // Create profile button that links directly to user_file.html
+            const profileLink = document.createElement('a');
+            profileLink.href = 'user_file.html';
+            profileLink.className = 'btn btn-outline-light me-2';
+            
+            // Add user icon and username
+            const userIcon = document.createElement('i');
+            userIcon.className = 'fas fa-user-circle me-1';
+            profileLink.appendChild(userIcon);
+            
+            const username = document.createElement('span');
+            username.textContent = `User_${userId.substring(0, 4)}`;
+            profileLink.appendChild(username);
+            
+            // Create logout button
+            const logoutBtn = document.createElement('button');
+            logoutBtn.className = 'btn btn-outline-light';
+            logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
             logoutBtn.addEventListener('click', () => {
                 localStorage.removeItem('userId');
                 window.location.reload();
             });
+            
+            // Add both elements to the profile container
+            userProfileEl.appendChild(profileLink);
+            userProfileEl.appendChild(logoutBtn);
         }
     } else {
         // User is not logged in - show login/register buttons, hide user profile
@@ -202,6 +221,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set up event listeners
     setupEventListeners();
 });
+
+
+
 
 /**
  * Load job listings into their respective sections

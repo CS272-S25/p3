@@ -49,18 +49,10 @@
                     <a href="sign-in.html" class="btn btn-outline-light me-2">Login</a>
                     <a href="register.html" class="btn btn-danger">Register</a>
                 </div>
-                <div id="userProfile" class="dropdown d-none">
-                    <button class="btn btn-outline-light dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user-circle me-1"></i>
-                        <span id="username">User</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                        <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-                        <li><a class="dropdown-item" href="dashboard.html">Dashboard</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><button class="dropdown-item" id="logoutBtn">Logout</button></li>
-                    </ul>
+                <div id="userProfile" class="d-none">
+                    <!-- The checkLoginStatus function will populate this div dynamically -->
                 </div>
+                
             </div>
         </div>
     </nav>
