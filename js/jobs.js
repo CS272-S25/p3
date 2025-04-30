@@ -154,8 +154,45 @@ const clearSavedJobsBtn = document.getElementById('clearSavedJobs');
 let currentJobs = [...mockJobListings];
 let savedJobs = [];
 
+
+function checkLoginStatus() {
+    const userId = localStorage.getItem('userId');
+    const authButtonsEl = document.getElementById('authButtons');
+    const userProfileEl = document.getElementById('userProfile');
+    const usernameEl = document.getElementById('username');
+    
+    if (userId) {
+        // User is logged in - hide login/register buttons, show user profile
+        if (authButtonsEl) authButtonsEl.classList.add('d-none');
+        if (userProfileEl) userProfileEl.classList.remove('d-none');
+        
+        // Set username (in a real app, you would fetch the user's name from the server)
+        if (usernameEl) {
+            usernameEl.textContent = `User_${userId.substring(0, 4)}`;
+        }
+        
+        // Add event listener to logout button
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                localStorage.removeItem('userId');
+                window.location.reload();
+            });
+        }
+    } else {
+        // User is not logged in - show login/register buttons, hide user profile
+        if (authButtonsEl) authButtonsEl.classList.remove('d-none');
+        if (userProfileEl) userProfileEl.classList.add('d-none');
+    }
+}
+
+
+
 // Initialize the page
 document.addEventListener('DOMContentLoaded', () => {
+    // Check login status
+    checkLoginStatus();
+
     // Load job listings
     loadJobListings();
 
