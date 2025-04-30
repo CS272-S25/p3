@@ -1,0 +1,780 @@
+/**
+ * forum.js - Community Forum Page JavaScript
+ * Handles the functionality of the community forum page including:
+ * - User login status
+ * - Post creation
+ * - Post interaction (likes, comments, bookmarks)
+ * - Feed filtering
+ */
+
+// DOM loaded event
+document.addEventListener('DOMContentLoaded', function() {
+    // Check login status
+    checkLoginStatus();
+    
+    // Setup event listeners
+    setupEventListeners();
+    
+    // Initialize forum elements
+    initializeForum();
+    
+    // Setup infinite scroll
+    setupInfiniteScroll();
+});
+
+/**
+ * Check login status and update the navigation bar accordingly
+ */
+function checkLoginStatus() {
+    const userId = localStorage.getItem('userId');
+    const authButtonsEl = document.getElementById('authButtons');
+    const userProfileEl = document.getElementById('userProfile');
+    
+    if (userId) {
+        // User is logged in - hide login/register buttons, show user profile section
+        if (authButtonsEl) authButtonsEl.classList.add('d-none');
+        
+        // Replace the user profile dropdown with direct links
+        if (userProfileEl) {
+            // Clear existing content
+            userProfileEl.innerHTML = '';
+            userProfileEl.classList.remove('d-none');
+            userProfileEl.classList.remove('dropdown');
+            
+            // Create profile button that links directly to user_file.html
+            const profileLink = document.createElement('a');
+            profileLink.href = 'user_file.html';
+            profileLink.className = 'btn btn-outline-light me-2';
+            
+            // Add user icon and username
+            const userIcon = document.createElement('i');
+            userIcon.className = 'fas fa-user-circle me-1';
+            profileLink.appendChild(userIcon);
+            
+            const username = document.createElement('span');
+            username.textContent = `User_${userId.substring(0, 4)}`;
+            profileLink.appendChild(username);
+            
+            // Create logout button
+            const logoutBtn = document.createElement('button');
+            logoutBtn.className = 'btn btn-outline-light';
+            logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
+            logoutBtn.addEventListener('click', () => {
+                localStorage.removeItem('userId');
+                window.location.reload();
+            });
+            
+            // Add both elements to the profile container
+            userProfileEl.appendChild(profileLink);
+            userProfileEl.appendChild(logoutBtn);
+            
+            // Update username in the post creation modal
+            const currentUserNameEl = document.getElementById('currentUserName');
+            if (currentUserNameEl) {
+                currentUserNameEl.textContent = `User_${userId.substring(0, 4)}`;
+            }
+        }
+    } else {
+        // User is not logged in - show login/register buttons, hide user profile
+        if (authButtonsEl) authButtonsEl.classList.remove('d-none');
+        if (userProfileEl) userProfileEl.classList.add('d-none');
+    }
+}
+
+/**
+ * Setup all event listeners for the forum page
+ */
+function setupEventListeners() {
+    // Topic filter buttons
+    const topicButtons = document.querySelectorAll('.topic-filters .btn');
+    topicButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            topicButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            // Filter posts based on the selected topic
+            filterPosts(this.textContent.trim());
+        });
+    });
+    
+    // Post interaction buttons (likes, comments, bookmarks)
+    setupPostInteractions();
+    
+    // Create post modal functionality
+    setupCreatePostModal();
+    
+    // Left sidebar navigation
+    setupSidebarNavigation();
+}
+
+/**
+ * Initialize forum elements
+ */
+function initializeForum() {
+    // Create scroll to top button
+    createScrollToTopButton();
+    
+    // Set up lazy loading for images
+    setupLazyLoading();
+}
+
+/**
+ * Setup event listeners for post interactions
+ */
+function setupPostInteractions() {
+    // Like buttons
+    const likeButtons = document.querySelectorAll('.post-actions button:first-child');
+    likeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const likeIcon = this.querySelector('i');
+            const likeCount = this.textContent.match(/\d+/)[0];
+            
+            if (likeIcon.classList.contains('far')) {
+                // Like the post
+                likeIcon.classList.remove('far');
+                likeIcon.classList.add('fas', 'heart-beat');
+                this.innerHTML = `<i class="fas fa-heart me-1"></i> ${parseInt(likeCount) + 1} likes`;
+                this.style.color = 'var(--badger-red)';
+            } else {
+                // Unlike the post
+                likeIcon.classList.remove('fas', 'heart-beat');
+                likeIcon.classList.add('far');
+                this.innerHTML = `<i class="far fa-heart me-1"></i> ${parseInt(likeCount) - 1} likes`;
+                this.style.color = '';
+            }
+        });
+    });
+    
+    // Bookmark buttons
+    const bookmarkButtons = document.querySelectorAll('.post-actions button:last-child');
+    bookmarkButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const bookmarkIcon = this.querySelector('i');
+            
+            if (bookmarkIcon.classList.contains('far')) {
+                // Bookmark the post
+                bookmarkIcon.classList.remove('far');
+                bookmarkIcon.classList.add('fas');
+                this.style.color = 'var(--badger-red)';
+                showToast('Post saved to your bookmarks');
+            } else {
+                // Remove bookmark
+                bookmarkIcon.classList.remove('fas');
+                bookmarkIcon.classList.add('far');
+                this.style.color = '';
+                showToast('Post removed from bookmarks');
+            }
+        });
+    });
+    
+    // Comment buttons
+    const commentButtons = document.querySelectorAll('.post-actions button:nth-child(2)');
+    commentButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Find the closest post container
+            const post = this.closest('.post');
+            
+            // Find the comments section in this post
+            let comments = post.querySelector('.comments');
+            
+            // If comments section doesn't exist, create it
+            if (!comments) {
+                comments = document.createElement('div');
+                comments.className = 'comments mt-3';
+                comments.innerHTML = `
+                    <hr>
+                    <div class="add-comment d-flex align-items-center">
+                        <img src="https://via.placeholder.com/32" class="rounded-circle me-2" alt="User Avatar" width="32" height="32">
+                        <input type="text" class="form-control form-control-sm" placeholder="Write a comment...">
+                        <button class="btn btn-sm btn-primary ms-2">Post</button>
+                    </div>
+                `;
+                
+                // Append comments section to post
+                post.querySelector('.card-body').appendChild(comments);
+                
+                // Focus on the comment input
+                comments.querySelector('input').focus();
+            } else {
+                // Toggle comments visibility
+                if (comments.style.display === 'none') {
+                    comments.style.display = 'block';
+                    // Focus on the comment input
+                    comments.querySelector('input').focus();
+                } else {
+                    comments.style.display = 'none';
+                }
+            }
+        });
+    });
+    
+    // Comment post buttons
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('btn-primary') && e.target.closest('.add-comment')) {
+            const button = e.target;
+            const commentInput = button.previousElementSibling;
+            const commentText = commentInput.value.trim();
+            
+            if (commentText) {
+                // Get the comments container
+                const commentsContainer = button.closest('.comments');
+                
+                // Create new comment
+                const newComment = document.createElement('div');
+                newComment.className = 'd-flex mb-3';
+                
+                // Get user ID for the comment author
+                const userId = localStorage.getItem('userId') || '1234';
+                
+                newComment.innerHTML = `
+                    <img src="https://via.placeholder.com/32" class="rounded-circle me-2" alt="User Avatar" width="32" height="32">
+                    <div class="comment-bubble">
+                        <div class="comment-header d-flex justify-content-between">
+                            <strong>User_${userId.substring(0, 4)}</strong>
+                            <small class="text-muted">Just now</small>
+                        </div>
+                        <p class="mb-0">${commentText}</p>
+                    </div>
+                `;
+                
+                // Add the new comment before the add comment section
+                commentsContainer.insertBefore(newComment, button.closest('.add-comment'));
+                
+                // Clear the input
+                commentInput.value = '';
+                
+                // Update comment count
+                const commentButton = button.closest('.post').querySelector('.post-actions button:nth-child(2)');
+                const commentCount = commentButton.textContent.match(/\d+/)[0];
+                commentButton.innerHTML = `<i class="far fa-comment me-1"></i> ${parseInt(commentCount) + 1} replies`;
+            }
+        }
+    });
+}
+
+/**
+ * Setup create post modal functionality
+ */
+function setupCreatePostModal() {
+    const modal = document.getElementById('createPostModal');
+    const publishBtn = document.getElementById('publishPost');
+    const postContentTextarea = document.getElementById('postContent');
+    
+    // Add Photo button
+    document.getElementById('addPhoto').addEventListener('click', function() {
+        const additionalFields = document.getElementById('additionalFields');
+        additionalFields.innerHTML = `
+            <div class="mb-3">
+                <label for="postImage" class="form-label">Upload Image</label>
+                <input type="file" class="form-control" id="postImage" accept="image/*">
+            </div>
+        `;
+        additionalFields.classList.remove('d-none');
+    });
+    
+    // Add Link button
+    document.getElementById('addLink').addEventListener('click', function() {
+        const additionalFields = document.getElementById('additionalFields');
+        additionalFields.innerHTML = `
+            <div class="mb-3">
+                <label for="postLink" class="form-label">Link URL</label>
+                <input type="url" class="form-control" id="postLink" placeholder="https://example.com">
+            </div>
+            <div class="mb-3">
+                <label for="postLinkTitle" class="form-label">Link Title</label>
+                <input type="text" class="form-control" id="postLinkTitle" placeholder="Title of the link">
+            </div>
+            <div class="mb-3">
+                <label for="postLinkDescription" class="form-label">Link Description</label>
+                <input type="text" class="form-control" id="postLinkDescription" placeholder="Brief description">
+            </div>
+        `;
+        additionalFields.classList.remove('d-none');
+    });
+    
+    // Add Poll button
+    document.getElementById('addPoll').addEventListener('click', function() {
+        const additionalFields = document.getElementById('additionalFields');
+        additionalFields.innerHTML = `
+            <div class="mb-3">
+                <label for="pollQuestion" class="form-label">Poll Question</label>
+                <input type="text" class="form-control" id="pollQuestion" placeholder="Ask a question...">
+            </div>
+            <div id="pollOptions">
+                <div class="mb-2">
+                    <div class="input-group">
+                        <span class="input-group-text">1</span>
+                        <input type="text" class="form-control" placeholder="Option 1">
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <div class="input-group">
+                        <span class="input-group-text">2</span>
+                        <input type="text" class="form-control" placeholder="Option 2">
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="addPollOption">
+                Add Option
+            </button>
+        `;
+        additionalFields.classList.remove('d-none');
+        
+        // Add poll option button
+        document.getElementById('addPollOption').addEventListener('click', function() {
+            const pollOptions = document.getElementById('pollOptions');
+            const optionCount = pollOptions.children.length + 1;
+            
+            const newOption = document.createElement('div');
+            newOption.className = 'mb-2';
+            newOption.innerHTML = `
+                <div class="input-group">
+                    <span class="input-group-text">${optionCount}</span>
+                    <input type="text" class="form-control" placeholder="Option ${optionCount}">
+                </div>
+            `;
+            
+            pollOptions.appendChild(newOption);
+        });
+    });
+    
+    // Format Markdown button
+    document.getElementById('formatMarkdown').addEventListener('click', function() {
+        const textarea = postContentTextarea;
+        const startPos = textarea.selectionStart;
+        const endPos = textarea.selectionEnd;
+        const selectedText = textarea.value.substring(startPos, endPos);
+        
+        // Create a dropdown with markdown formatting options
+        const additionalFields = document.getElementById('additionalFields');
+        additionalFields.innerHTML = `
+            <div class="mb-3">
+                <label class="form-label">Markdown Formatting</label>
+                <div class="btn-group w-100">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-format="bold">Bold</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-format="italic">Italic</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-format="heading">Heading</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-format="list">List</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-format="link">Link</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-format="code">Code</button>
+                </div>
+            </div>
+        `;
+        additionalFields.classList.remove('d-none');
+        
+        // Add event listeners to markdown buttons
+        const markdownButtons = additionalFields.querySelectorAll('[data-format]');
+        markdownButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const format = this.dataset.format;
+                let formattedText = '';
+                
+                switch (format) {
+                    case 'bold':
+                        formattedText = `**${selectedText}**`;
+                        break;
+                    case 'italic':
+                        formattedText = `*${selectedText}*`;
+                        break;
+                    case 'heading':
+                        formattedText = `## ${selectedText}`;
+                        break;
+                    case 'list':
+                        formattedText = `- ${selectedText.split('\n').join('\n- ')}`;
+                        break;
+                    case 'link':
+                        formattedText = `[${selectedText}](https://example.com)`;
+                        break;
+                    case 'code':
+                        formattedText = `\`${selectedText}\``;
+                        break;
+                }
+                
+                // Replace the selected text with the formatted text
+                textarea.value = textarea.value.substring(0, startPos) + formattedText + textarea.value.substring(endPos);
+                
+                // Update selection
+                textarea.selectionStart = startPos;
+                textarea.selectionEnd = startPos + formattedText.length;
+                
+                // Focus on the textarea
+                textarea.focus();
+            });
+        });
+    });
+    
+    // Add Hashtag button
+    document.getElementById('addHashtag').addEventListener('click', function() {
+        const textarea = postContentTextarea;
+        const cursorPos = textarea.selectionStart;
+        
+        // Insert hashtag at cursor position
+        textarea.value = textarea.value.substring(0, cursorPos) + '#' + textarea.value.substring(cursorPos);
+        
+        // Move cursor after the hashtag
+        textarea.selectionStart = cursorPos + 1;
+        textarea.selectionEnd = cursorPos + 1;
+        
+        // Focus on the textarea
+        textarea.focus();
+    });
+    
+    // Add Code button
+    document.getElementById('addCode').addEventListener('click', function() {
+        const additionalFields = document.getElementById('additionalFields');
+        additionalFields.innerHTML = `
+            <div class="mb-3">
+                <label for="codeBlock" class="form-label">Code Block</label>
+                <select class="form-select mb-2" id="codeLanguage">
+                    <option value="javascript">JavaScript</option>
+                    <option value="python">Python</option>
+                    <option value="java">Java</option>
+                    <option value="csharp">C#</option>
+                    <option value="cpp">C++</option>
+                    <option value="html">HTML</option>
+                    <option value="css">CSS</option>
+                </select>
+                <textarea class="form-control font-monospace" id="codeBlock" rows="5" placeholder="Paste your code here..."></textarea>
+            </div>
+        `;
+        additionalFields.classList.remove('d-none');
+    });
+    
+    // Publish post button
+    publishBtn.addEventListener('click', function() {
+        const postContent = postContentTextarea.value.trim();
+        
+        if (postContent) {
+            // Create new post
+            createNewPost(postContent);
+            
+            // Close the modal
+            const modalInstance = bootstrap.Modal.getInstance(modal);
+            modalInstance.hide();
+            
+            // Clear the form
+            postContentTextarea.value = '';
+            document.getElementById('additionalFields').innerHTML = '';
+            document.getElementById('additionalFields').classList.add('d-none');
+            
+            // Show success message
+            showToast('Your post has been published!');
+        } else {
+            alert('Please enter some content for your post.');
+        }
+    });
+}
+
+/**
+ * Create a new post and add it to the feed
+ * @param {string} content - Post content
+ */
+function createNewPost(content) {
+    // Create post element
+    const postElement = document.createElement('div');
+    postElement.className = 'card shadow-sm mb-4 post';
+    
+    // Get current user ID or use default
+    const userId = localStorage.getItem('userId') || '1234';
+    
+    // Format the content (simple markdown-like formatting)
+    let formattedContent = content
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/## (.*?)$/gm, '<h5>$1</h5>')
+        .replace(/- (.*?)$/gm, '<li>$1</li>')
+        .replace(/<li>(.*?)<\/li>/gm, function(match) {
+            return '<ul>' + match + '</ul>';
+        })
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        .replace(/\n/g, '<br>');
+    
+    // Replace #hashtags with styled spans
+    formattedContent = formattedContent.replace(/#(\w+)/g, '<span class="badge bg-light text-dark">#$1</span>');
+    
+    postElement.innerHTML = `
+        <div class="card-header bg-white border-0">
+            <div class="d-flex align-items-center">
+                <img src="https://via.placeholder.com/40" class="rounded-circle me-2" alt="User Avatar">
+                <div>
+                    <h6 class="mb-0">User_${userId.substring(0, 4)}</h6>
+                    <small class="text-muted">Just now</small>
+                </div>
+                <div class="ms-auto">
+                    <button class="btn btn-sm btn-link text-muted">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <p>${formattedContent}</p>
+            <div class="post-actions d-flex">
+                <button class="btn btn-sm btn-link text-muted me-3">
+                    <i class="far fa-heart me-1"></i> 0 likes
+                </button>
+                <button class="btn btn-sm btn-link text-muted me-3">
+                    <i class="far fa-comment me-1"></i> 0 replies
+                </button>
+                <button class="btn btn-sm btn-link text-muted">
+                    <i class="far fa-bookmark"></i>
+                </button>
+            </div>
+        </div>
+    `;
+    
+    // Add the new post to the top of the feed
+    const postsFeed = document.getElementById('postsFeed');
+    postsFeed.insertBefore(postElement, postsFeed.firstChild);
+    
+    // Setup interactions for the new post
+    setupPostInteractions();
+}
+
+/**
+ * Setup sidebar navigation
+ */
+function setupSidebarNavigation() {
+    const sidebarItems = document.querySelectorAll('.list-group-item');
+    
+    sidebarItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Remove active class from all items
+            sidebarItems.forEach(item => item.classList.remove('active'));
+            
+            // Add active class to clicked item
+            this.classList.add('active');
+            
+            // Handle navigation logic based on clicked item
+            const navText = this.textContent.trim();
+            
+            // For demonstration, just show a toast
+            showToast(`Navigated to ${navText}`);
+        });
+    });
+}
+
+/**
+ * Filter posts based on the selected topic
+ * @param {string} topic - Topic to filter by
+ */
+function filterPosts(topic) {
+    // For demonstration purposes, just show a toast
+    if (topic === 'All') {
+        showToast('Showing all posts');
+    } else {
+        showToast(`Filtering posts by: ${topic}`);
+    }
+    
+    // In a real implementation, you would filter the posts based on the topic
+}
+
+/**
+ * Create scroll to top button
+ */
+function createScrollToTopButton() {
+    // Create button element
+    const scrollButton = document.createElement('div');
+    scrollButton.className = 'scroll-to-top';
+    scrollButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
+    
+    // Add to document
+    document.body.appendChild(scrollButton);
+    
+    // Show/hide button based on scroll position
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+            scrollButton.classList.add('visible');
+        } else {
+            scrollButton.classList.remove('visible');
+        }
+    });
+    
+    // Scroll to top when clicked
+    scrollButton.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
+/**
+ * Setup lazy loading for images
+ */
+function setupLazyLoading() {
+    // Check if IntersectionObserver is supported
+    if ('IntersectionObserver' in window) {
+        const lazyImages = document.querySelectorAll('img');
+        
+        const imageObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    
+                    // Replace src with data-src if it exists
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                    }
+                    
+                    // Stop observing the image
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+        
+        // Observe each image
+        lazyImages.forEach(function(img) {
+            imageObserver.observe(img);
+        });
+    }
+}
+
+/**
+ * Setup infinite scrolling
+ */
+function setupInfiniteScroll() {
+    let isLoading = false;
+    let page = 1;
+    
+    window.addEventListener('scroll', function() {
+        // Check if we're near the bottom of the page
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+            if (!isLoading) {
+                isLoading = true;
+                
+                // Show loading indicator
+                const loadingIndicator = document.createElement('div');
+                loadingIndicator.className = 'text-center py-3';
+                loadingIndicator.innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>';
+                document.getElementById('postsFeed').appendChild(loadingIndicator);
+                
+                // Simulate API call with timeout
+                setTimeout(function() {
+                    // Remove loading indicator
+                    loadingIndicator.remove();
+                    
+                    // Load more posts
+                    loadMorePosts();
+                    
+                    // Reset loading flag
+                    isLoading = false;
+                    page++;
+                }, 1500);
+            }
+        }
+    });
+}
+
+/**
+ * Load more posts for infinite scrolling
+ */
+function loadMorePosts() {
+    // Sample post data - in a real app, this would come from an API
+    const samplePosts = [
+        {
+            author: 'Alex Johnson',
+            role: 'Computer Science • 2025',
+            content: 'Just finished my first internship at a startup. The experience was incredible! Happy to answer any questions about finding internships at smaller companies.',
+            likes: 15,
+            comments: 3
+        },
+        {
+            author: 'Jamie Smith',
+            role: 'Software Engineering • 2024',
+            content: 'Here\'s a resource that helped me ace my technical interviews: <a href="#" class="text-decoration-none">codinginterviewprep.com</a>',
+            likes: 28,
+            comments: 7
+        },
+        {
+            author: 'Taylor Wong',
+            role: 'Data Science • 2023',
+            content: 'Anyone interested in a study group for the upcoming AWS certification? I\'m planning to take the exam next month. #AWS #CloudComputing',
+            likes: 12,
+            comments: 5
+        }
+    ];
+    
+    // Get the posts feed container
+    const postsFeed = document.getElementById('postsFeed');
+    
+    // Add each sample post to the feed
+    samplePosts.forEach(post => {
+        const postElement = document.createElement('div');
+        postElement.className = 'card shadow-sm mb-4 post';
+        
+        postElement.innerHTML = `
+            <div class="card-header bg-white border-0">
+                <div class="d-flex align-items-center">
+                    <img src="https://via.placeholder.com/40" class="rounded-circle me-2" alt="User Avatar">
+                    <div>
+                        <h6 class="mb-0">${post.author}</h6>
+                        <small class="text-muted">${post.role}</small>
+                    </div>
+                    <div class="ms-auto">
+                        <button class="btn btn-sm btn-link text-muted">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p>${post.content}</p>
+                <div class="post-actions d-flex">
+                    <button class="btn btn-sm btn-link text-muted me-3">
+                        <i class="far fa-heart me-1"></i> ${post.likes} likes
+                    </button>
+                    <button class="btn btn-sm btn-link text-muted me-3">
+                        <i class="far fa-comment me-1"></i> ${post.comments} replies
+                    </button>
+                    <button class="btn btn-sm btn-link text-muted">
+                        <i class="far fa-bookmark"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        postsFeed.appendChild(postElement);
+    });
+    
+    // Setup interactions for the new posts
+    setupPostInteractions();
+}
+
+/**
+ * Show a toast notification
+ * @param {string} message - Message to display
+ */
+function showToast(message) {
+    // Create toast element
+    const toastEl = document.createElement('div');
+    toastEl.className = 'toast align-items-center text-white bg-dark border-0 position-fixed bottom-0 end-0 m-3';
+    toastEl.setAttribute('role', 'alert');
+    toastEl.setAttribute('aria-live', 'assertive');
+    toastEl.setAttribute('aria-atomic', 'true');
+
+    toastEl.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">
+                ${message}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    `;
+
+    // Add to document
+    document.body.appendChild(toastEl);
+
+    // Initialize and show toast
+    const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+    toast.show();
+
+    // Remove after hiding
+    toastEl.addEventListener('hidden.bs.toast', () => {
+        toastEl.remove();
+    });
+}
