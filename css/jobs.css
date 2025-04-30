@@ -1,12 +1,13 @@
 /* 
    BadgerCS Career Nexus - Jobs Page Stylesheet
-   Updated: Removed fixed sizes and improved responsiveness
+   Updated: Fixed card overflow issues and improved responsiveness
 */
 
 /* Job Card Styling */
 .job-card .card {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     height: 100%;
+    max-width: 100%; /* Ensure cards don't overflow container width */
 }
 
 .job-card .card:hover {
@@ -16,6 +17,14 @@
 
 .job-card .card-body {
     padding: 1em;
+    flex-grow: 1;
+    overflow: hidden; /* Prevent content overflow */
+}
+
+.job-card .card-footer {
+    position: relative; /* Ensure proper positioning inside card */
+    z-index: 1;
+    background-color: #fff;
 }
 
 .job-card .company-logo img {
@@ -60,6 +69,38 @@
 .job-card .job-date {
     font-size: 0.85em;
     color: #6c757d;
+}
+
+.job-card .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative; /* Required for stretched-link */
+    overflow: hidden; /* Critical: prevent content from overflowing */
+}
+
+/* Card container styling */
+#internshipListings,
+#fullTimeListings,
+#savedJobsListings {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0; /* Reset any margins */
+}
+
+/* Fix for the row element containing cards */
+.row.g-0 {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Job card column sizing */
+.job-card {
+    width: 33.333%; /* Default for larger screens */
+    padding: 0.5rem; /* Add padding between cards */
+    box-sizing: border-box; /* Include padding in width calculation */
 }
 
 .bookmark-btn {
@@ -136,9 +177,15 @@
 }
 
 /* Responsive Adjustments */
+@media (max-width: 992px) {
+    .job-card {
+        width: 50%; /* 2 cards per row on medium screens */
+    }
+}
+
 @media (max-width: 768px) {
     .job-card {
-        width: 100%;
+        width: 100%; /* Full width on small screens */
     }
 
     .job-card .job-title {
@@ -181,6 +228,16 @@
     .mobile-filter-button {
         display: flex !important;
     }
+}
+
+/* Fixed card container to prevent overflows */
+.card.shadow-sm {
+    overflow: hidden;
+}
+
+.card-body.p-0 {
+    padding: 0 !important;
+    overflow: hidden;
 }
 
 /* Loading and Empty States */
@@ -306,10 +363,15 @@
 /* Container Overrides */
 .container {
     overflow-x: hidden;
-    padding: 0 2%;
 }
 
-#internshipListings {
+/* Ensure card content is properly contained */
+#internshipListings,
+#fullTimeListings,
+#savedJobsListings {
+    display: flex;
     flex-wrap: wrap;
-    overflow-x: hidden;
+    margin-right: 0;
+    margin-left: 0;
+    width: 100%;
 }
