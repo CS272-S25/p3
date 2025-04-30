@@ -13,7 +13,7 @@ const mockJobListings = [
         id: "job1",
         title: "Software Engineering Intern",
         company: "Tinuiti",
-        companyLogo: "https://via.placeholder.com/48",
+        companyLogo: "https://logowik.com/content/uploads/images/tinuiti6085.jpg",
         industry: "Advertising, PR & Marketing",
         salary: "$9K/mo+",
         jobType: "Full-time job",
@@ -27,7 +27,7 @@ const mockJobListings = [
         id: "job2",
         title: "Software Engineer Intern",
         company: "Structured Labs",
-        companyLogo: "https://via.placeholder.com/48",
+        companyLogo: "https://structuredlabs.com/logo.svg",
         industry: "Internet & Software",
         salary: "$20/hr",
         jobType: "Full-time job",
@@ -41,7 +41,7 @@ const mockJobListings = [
         id: "job3",
         title: "Software Engineering Intern",
         company: "Telguard",
-        companyLogo: "https://via.placeholder.com/48",
+        companyLogo: "https://img.securityinfowatch.com/files/base/cygnus/siw/image/2017/03/TelguardLogoVertical_2.58bebda68720b.png?auto=format%2Ccompress&w=250&width=250",
         industry: "Telecommunications",
         salary: "$40-45K/hr",
         jobType: "Full-time job",
@@ -55,7 +55,7 @@ const mockJobListings = [
         id: "job4",
         title: "Software Development Internship",
         company: "C-Motive Technologies",
-        companyLogo: "https://via.placeholder.com/48",
+        companyLogo: "https://www.nailmags.com/userAssets/members/4109/logo/cmotive_icon_color.png",
         industry: "Other Industries",
         salary: "$15/hr",
         jobType: "Part-time job",
@@ -69,7 +69,7 @@ const mockJobListings = [
         id: "job5",
         title: "Software Engineer (Intern)",
         company: "comma.ai",
-        companyLogo: "https://via.placeholder.com/48",
+        companyLogo: "https://images.seeklogo.com/logo-png/48/1/comma-ai-logo-png_seeklogo-483230.png",
         industry: "Internet & Software",
         salary: "$6-7K/mo",
         jobType: "Full-time job",
@@ -83,7 +83,7 @@ const mockJobListings = [
         id: "job6",
         title: "Software Engineer - Summer",
         company: "Lazarus",
-        companyLogo: "https://via.placeholder.com/48",
+        companyLogo: "https://upload.wikimedia.org/wikipedia/commons/8/80/Lazarus_Logo_%28new%29.png",
         industry: "Internet & Software",
         salary: "$30/hr",
         jobType: "Full-time job",
@@ -97,7 +97,7 @@ const mockJobListings = [
         id: "job7",
         title: "Full Stack Software Engineer",
         company: "Epic Systems",
-        companyLogo: "https://via.placeholder.com/48",
+        companyLogo: "https://upload.wikimedia.org/wikipedia/commons/2/24/Epic_Systems.svg",
         industry: "Healthcare",
         salary: "$85-110K/year",
         jobType: "Full-time job",
@@ -111,7 +111,7 @@ const mockJobListings = [
         id: "job8",
         title: "Backend Engineer",
         company: "Microsoft",
-        companyLogo: "https://via.placeholder.com/48",
+        companyLogo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
         industry: "Internet & Software",
         salary: "$120-140K/year",
         jobType: "Full-time job",
@@ -125,7 +125,7 @@ const mockJobListings = [
         id: "job9",
         title: "Senior Frontend Developer",
         company: "Google",
-        companyLogo: "https://via.placeholder.com/48",
+        companyLogo: "https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg",
         industry: "Internet & Software",
         salary: "$150-180K/year",
         jobType: "Full-time job",
@@ -158,10 +158,10 @@ let savedJobs = [];
 document.addEventListener('DOMContentLoaded', () => {
     // Load job listings
     loadJobListings();
-    
+
     // Load saved jobs from localStorage
     loadSavedJobs();
-    
+
     // Set up event listeners
     setupEventListeners();
 });
@@ -173,52 +173,80 @@ function loadJobListings() {
     // Clear existing content
     internshipListingsEl.innerHTML = '';
     fullTimeListingsEl.innerHTML = '';
-    
+
     // Filter for internships and full-time positions
-    const internships = currentJobs.filter(job => 
-        job.title.toLowerCase().includes('intern') || 
+    const internships = currentJobs.filter(job =>
+        job.title.toLowerCase().includes('intern') ||
         job.title.toLowerCase().includes('internship')
     );
-    
-    const fullTimeJobs = currentJobs.filter(job => 
-        !job.title.toLowerCase().includes('intern') && 
+
+    const fullTimeJobs = currentJobs.filter(job =>
+        !job.title.toLowerCase().includes('intern') &&
         !job.title.toLowerCase().includes('internship')
     );
-    
+
     // Render internships
     if (internships.length > 0) {
         internships.forEach(job => {
             const jobCard = createJobCard(job);
             internshipListingsEl.appendChild(jobCard);
         });
-    } else {
-        internshipListingsEl.innerHTML = `
-            <div class="col-12 text-center py-4">
-                <div class="empty-state">
-                    <i class="fas fa-search empty-state-icon"></i>
-                    <p class="empty-state-text">No internships found matching your criteria</p>
-                    <p class="text-muted">Try adjusting your filters</p>
-                </div>
-            </div>
-        `;
     }
-    
+    else {
+        const noInternEl = document.createElement('div');
+        noInternEl.className = 'col-12 text-center py-4';
+
+        const emptyState = document.createElement('div');
+        emptyState.className = 'empty-state';
+
+        const icon = document.createElement('i');
+        icon.className = 'fas fa-search empty-state-icon';
+
+        const mainText = document.createElement('p');
+        mainText.className = 'empty-state-text';
+        mainText.textContent = 'No internships found matching your criteria';
+
+        const subText = document.createElement('p');
+        subText.className = 'text-muted';
+        subText.textContent = 'Try adjusting your filters';
+
+        emptyState.appendChild(icon);
+        emptyState.appendChild(mainText);
+        emptyState.appendChild(subText);
+        noInternEl.appendChild(emptyState);
+        internshipListingsEl.appendChild(noInternEl);
+    }
+
     // Render full-time jobs
     if (fullTimeJobs.length > 0) {
         fullTimeJobs.forEach(job => {
             const jobCard = createJobCard(job);
             fullTimeListingsEl.appendChild(jobCard);
         });
-    } else {
-        fullTimeListingsEl.innerHTML = `
-            <div class="col-12 text-center py-4">
-                <div class="empty-state">
-                    <i class="fas fa-search empty-state-icon"></i>
-                    <p class="empty-state-text">No jobs found matching your criteria</p>
-                    <p class="text-muted">Try adjusting your filters</p>
-                </div>
-            </div>
-        `;
+    }
+    else {
+        const noInternEl = document.createElement('div');
+        noInternEl.className = 'col-12 text-center py-4';
+
+        const emptyState = document.createElement('div');
+        emptyState.className = 'empty-state';
+
+        const icon = document.createElement('i');
+        icon.className = 'fas fa-search empty-state-icon';
+
+        const mainText = document.createElement('p');
+        mainText.className = 'empty-state-text';
+        mainText.textContent = 'No internships found matching your criteria';
+
+        const subText = document.createElement('p');
+        subText.className = 'text-muted';
+        subText.textContent = 'Try adjusting your filters';
+
+        emptyState.appendChild(icon);
+        emptyState.appendChild(mainText);
+        emptyState.appendChild(subText);
+        noInternEl.appendChild(emptyState);
+        internshipListingsEl.appendChild(noInternEl);
     }
 }
 
@@ -229,12 +257,12 @@ function loadJobListings() {
  */
 function createJobCard(job) {
     const jobCardClone = document.importNode(jobCardTemplate.content, true);
-    
+
     // Fill in job details
     const companyLogoEl = jobCardClone.querySelector('.company-logo img');
     companyLogoEl.src = job.companyLogo;
     companyLogoEl.alt = `${job.company} logo`;
-    
+
     jobCardClone.querySelector('.company-name').textContent = job.company;
     jobCardClone.querySelector('.company-industry').textContent = job.industry;
     jobCardClone.querySelector('.job-title').textContent = job.title;
@@ -242,11 +270,11 @@ function createJobCard(job) {
     jobCardClone.querySelector('.job-type').textContent = job.jobType;
     jobCardClone.querySelector('.job-location').textContent = job.location;
     jobCardClone.querySelector('.job-date').textContent = job.date;
-    
+
     // Set up bookmark button
     const bookmarkBtn = jobCardClone.querySelector('.bookmark-btn');
     bookmarkBtn.dataset.jobId = job.id;
-    
+
     // Check if job is already saved
     if (isJobSaved(job.id)) {
         bookmarkBtn.classList.add('active');
@@ -254,12 +282,12 @@ function createJobCard(job) {
     } else {
         bookmarkBtn.innerHTML = '<i class="far fa-bookmark"></i>';
     }
-    
+
     // Set up job detail link
     const jobLink = jobCardClone.querySelector('.view-job-link');
     jobLink.href = `job-detail.html?id=${job.id}`;
     jobLink.textContent = 'View Details';
-    
+
     // Add "New" badge if job is new
     if (job.isNew) {
         const cardDiv = jobCardClone.querySelector('.card');
@@ -270,7 +298,7 @@ function createJobCard(job) {
         newBadge.textContent = 'New';
         cardDiv.appendChild(newBadge);
     }
-    
+
     return jobCardClone;
 }
 
@@ -280,22 +308,22 @@ function createJobCard(job) {
 function loadSavedJobs() {
     // Get saved jobs from localStorage
     const savedJobsData = localStorage.getItem('savedJobs');
-    
+
     if (savedJobsData) {
         savedJobs = JSON.parse(savedJobsData);
-        
+
         // Display saved jobs section if there are saved jobs
         if (savedJobs.length > 0) {
             savedJobsSectionEl.style.display = 'block';
             noSavedJobsEl.style.display = 'none';
-            
+
             // Clear existing content
             savedJobsListingsEl.innerHTML = '';
-            
+
             // Find the job data for each saved job ID
             savedJobs.forEach(jobId => {
                 const jobData = mockJobListings.find(job => job.id === jobId);
-                
+
                 if (jobData) {
                     const jobCard = createJobCard(jobData);
                     savedJobsListingsEl.appendChild(jobCard);
@@ -323,7 +351,7 @@ function isJobSaved(jobId) {
  */
 function toggleSaveJob(jobId) {
     const index = savedJobs.indexOf(jobId);
-    
+
     if (index === -1) {
         // Job is not saved, add it
         savedJobs.push(jobId);
@@ -333,13 +361,13 @@ function toggleSaveJob(jobId) {
         savedJobs.splice(index, 1);
         showToast('Job removed from your list.');
     }
-    
+
     // Save to localStorage
     localStorage.setItem('savedJobs', JSON.stringify(savedJobs));
-    
+
     // Reload saved jobs section
     loadSavedJobs();
-    
+
     // Update bookmark buttons for this job ID
     updateBookmarkButtons(jobId);
 }
@@ -350,7 +378,7 @@ function toggleSaveJob(jobId) {
  */
 function updateBookmarkButtons(jobId) {
     const bookmarkBtns = document.querySelectorAll(`.bookmark-btn[data-job-id="${jobId}"]`);
-    
+
     bookmarkBtns.forEach(btn => {
         if (isJobSaved(jobId)) {
             btn.classList.add('active');
@@ -370,19 +398,19 @@ function filterJobs() {
     const jobTypeFilter = document.getElementById('jobType').value;
     const locationFilter = document.getElementById('location').value;
     const companyFilter = document.getElementById('companyName').value.toLowerCase();
-    
+
     const experienceFilters = [];
     if (document.getElementById('entryLevel').checked) experienceFilters.push('Entry-Level');
     if (document.getElementById('midLevel').checked) experienceFilters.push('Mid-Level');
     if (document.getElementById('seniorLevel').checked) experienceFilters.push('Senior-Level');
-    
+
     // Apply filters
     currentJobs = mockJobListings.filter(job => {
         // Filter by job type
         if (jobTypeFilter && !job.jobType.includes(jobTypeFilter)) {
             return false;
         }
-        
+
         // Filter by location
         if (locationFilter) {
             const locationLower = job.location.toLowerCase();
@@ -394,20 +422,20 @@ function filterJobs() {
                 return false;
             }
         }
-        
+
         // Filter by company name
         if (companyFilter && !job.company.toLowerCase().includes(companyFilter)) {
             return false;
         }
-        
+
         // Filter by experience level
         if (experienceFilters.length > 0 && !experienceFilters.includes(job.experience)) {
             return false;
         }
-        
+
         return true;
     });
-    
+
     // Reload job listings with filtered data
     loadJobListings();
 }
@@ -417,19 +445,19 @@ function filterJobs() {
  */
 function searchJobs() {
     const searchTerm = searchJobsEl.value.toLowerCase();
-    
+
     if (searchTerm.trim() === '') {
         // If search is empty, reset to all jobs
         currentJobs = [...mockJobListings];
     } else {
         // Filter jobs by search term
-        currentJobs = mockJobListings.filter(job => 
+        currentJobs = mockJobListings.filter(job =>
             job.title.toLowerCase().includes(searchTerm) ||
             job.company.toLowerCase().includes(searchTerm) ||
             job.tags.some(tag => tag.toLowerCase().includes(searchTerm))
         );
     }
-    
+
     // Reload job listings with search results
     loadJobListings();
 }
@@ -440,13 +468,13 @@ function searchJobs() {
 function clearFilters() {
     // Reset filter form
     document.getElementById('jobFilters').reset();
-    
+
     // Reset current jobs to original data
     currentJobs = [...mockJobListings];
-    
+
     // Clear search box
     searchJobsEl.value = '';
-    
+
     // Reload job listings
     loadJobListings();
 }
@@ -458,20 +486,20 @@ function clearAllSavedJobs() {
     if (confirm('Are you sure you want to clear all saved jobs?')) {
         // Clear saved jobs
         savedJobs = [];
-        
+
         // Save to localStorage
         localStorage.setItem('savedJobs', JSON.stringify(savedJobs));
-        
+
         // Reload saved jobs section
         loadSavedJobs();
-        
+
         // Update all bookmark buttons
         const bookmarkBtns = document.querySelectorAll('.bookmark-btn');
         bookmarkBtns.forEach(btn => {
             btn.classList.remove('active');
             btn.innerHTML = '<i class="far fa-bookmark"></i>';
         });
-        
+
         showToast('All saved jobs have been cleared.');
     }
 }
@@ -489,29 +517,29 @@ function setupEventListeners() {
             toggleSaveJob(jobId);
         }
     });
-    
+
     // Search button click
     searchButtonEl.addEventListener('click', () => {
         searchJobs();
     });
-    
+
     // Search on Enter key
     searchJobsEl.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
             searchJobs();
         }
     });
-    
+
     // Apply filters button
     applyFiltersBtn.addEventListener('click', () => {
         filterJobs();
     });
-    
+
     // Clear filters button
     clearFiltersBtn.addEventListener('click', () => {
         clearFilters();
     });
-    
+
     // Clear saved jobs button
     clearSavedJobsBtn.addEventListener('click', () => {
         clearAllSavedJobs();
@@ -529,7 +557,7 @@ function showToast(message) {
     toastEl.setAttribute('role', 'alert');
     toastEl.setAttribute('aria-live', 'assertive');
     toastEl.setAttribute('aria-atomic', 'true');
-    
+
     toastEl.innerHTML = `
         <div class="d-flex">
             <div class="toast-body">
@@ -538,14 +566,14 @@ function showToast(message) {
             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
     `;
-    
+
     // Add to document
     document.body.appendChild(toastEl);
-    
+
     // Initialize and show toast
     const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
     toast.show();
-    
+
     // Remove after hiding
     toastEl.addEventListener('hidden.bs.toast', () => {
         toastEl.remove();
