@@ -7,7 +7,7 @@
  * - Application tracking
  */
 
-// Mock data for job details (in a real app, this would come from an API)
+// Mock data for job listings (in a real app, this would come from an API)
 const mockJobDetails = {
     "job1": {
         id: "job1",
@@ -180,6 +180,70 @@ const mockJobDetails = {
     }
 };
 
+/**
+ * Show a toast notification
+ * @param {string} message - Message to display
+ */
+function showToast(message) {
+    // Create toast element
+    const toastEl = document.createElement('div');
+    toastEl.className = 'toast align-items-center text-white bg-dark border-0 position-fixed bottom-0 end-0 m-3';
+    toastEl.setAttribute('role', 'alert');
+    toastEl.setAttribute('aria-live', 'assertive');
+    toastEl.setAttribute('aria-atomic', 'true');
+    
+    toastEl.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">
+                ${message}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    `;
+    
+    // Add to document
+    document.body.appendChild(toastEl);
+    
+    // Initialize and show toast
+    const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+    toast.show();
+    
+    // Remove after hiding
+    toastEl.addEventListener('hidden.bs.toast', () => {
+        toastEl.remove();
+    });
+}
+
+/**
+ * Show a success alert at the top of the page
+ * @param {string} message - Message to display
+ */
+function showSuccessAlert(message) {
+    // Create alert element
+    const alertEl = document.createElement('div');
+    alertEl.className = 'alert alert-success alert-dismissible fade show custom-alert';
+    alertEl.setAttribute('role', 'alert');
+    
+    alertEl.innerHTML = `
+        <i class="fas fa-check-circle me-2"></i> ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+    
+    // Add to document
+    document.body.appendChild(alertEl);
+    
+    // Auto-dismiss after 5 seconds
+    setTimeout(() => {
+        const bsAlert = new bootstrap.Alert(alertEl);
+        bsAlert.close();
+    }, 5000);
+    
+    // Remove after hiding
+    alertEl.addEventListener('closed.bs.alert', () => {
+        alertEl.remove();
+    });
+};
+
 // Similar jobs mock data
 const mockSimilarJobs = {
     "job1": [
@@ -277,16 +341,22 @@ const careerGrowthEl = document.getElementById('careerGrowth');
 const interviewDifficultyEl = document.getElementById('interviewDifficulty');
 const interviewQuestionsEl = document.getElementById('interviewQuestions');
 const similarJobsListEl = document.getElementById('similarJobsList');
+const shareJobLinkEl = document.getElementById('shareJobLink');
+const copyLinkBtnEl = document.getElementById('copyLinkBtn');
+
+// Action buttons
 const saveJobBtnEl = document.getElementById('saveJobBtn');
-const saveJobTextEl = document.getElementById('saveJobText');
 const shareJobBtnEl = document.getElementById('shareJobBtn');
 const applyNowBtnEl = document.getElementById('applyNowBtn');
 const addToApplicationsBtnEl = document.getElementById('addToApplicationsBtn');
-const companyInsightsLoaderEl = document.getElementById('companyInsightsLoader');
-const companyInsightsEl = document.getElementById('companyInsights');
-const shareJobLinkEl = document.getElementById('shareJobLink');
-const copyLinkBtnEl = document.getElementById('copyLinkBtn');
+const saveJobTextEl = document.getElementById('saveJobText');
 const applyJobTitleEl = document.getElementById('applyJobTitle');
+
+// Modal elements
+const submitApplicationEl = document.getElementById('submitApplication');
+const saveToApplicationsEl = document.getElementById('saveToApplications');
+const modalShareLinkEl = document.getElementById('modalShareLink');
+const modalCopyBtnEl = document.getElementById('modalCopyBtn');
 
 // Initialize variables
 let currentJobId = '';
@@ -313,6 +383,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Set up event listeners
     setupEventListeners();
+
+    // Initialize modal links
+    modalShareLinkEl.value = window.location.href;
 });
 
 /**
@@ -350,15 +423,58 @@ function loadJobDetails(jobId) {
         
         // Show company insights with delay (simulate loading)
         setTimeout(() => {
-            companyInsightsLoaderEl.classList.add('d-none');
-            companyInsightsEl.classList.remove('d-none');
+            // Get company insights elements - with null checks
+            const companyInsightsLoaderEl = document.getElementById('companyInsightsLoader');
+            const companyInsightsEl = document.getElementById('companyInsights');
+            
+            // Only try to access these elements if they exist
+            if (companyInsightsLoaderEl) {
+                companyInsightsLoaderEl.classList.add('d-none');
+            }
+            
+            if (companyInsightsEl) {
+                companyInsightsEl.innerHTML = `
+                    <div class="mb-3">
+                        <p><strong>Employee Rating:</strong> ${jobData.employeeRating}/5</p>
+                        <div class="progress mb-2" style="height: 8px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: ${jobData.employeeRating * 20}%" aria-valuenow="${jobData.employeeRating}" aria-valuemin="0" aria-valuemax="5"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <p><strong>Work-Life Balance:</strong> ${jobData.workLifeBalance}/5</p>
+                        <div class="progress mb-2" style="height: 8px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: ${jobData.workLifeBalance * 20}%" aria-valuenow="${jobData.workLifeBalance}" aria-valuemin="0" aria-valuemax="5"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <p><strong>Career Growth:</strong> ${jobData.careerGrowth}/5</p>
+                        <div class="progress mb-2" style="height: 8px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: ${jobData.careerGrowth * 20}%" aria-valuenow="${jobData.careerGrowth}" aria-valuemin="0" aria-valuemax="5"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p><strong>Interview Difficulty:</strong> ${jobData.interviewDifficulty}/5</p>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: ${jobData.interviewDifficulty * 20}%" aria-valuenow="${jobData.interviewDifficulty}" aria-valuemin="0" aria-valuemax="5"></div>
+                        </div>
+                    </div>
+                `;
+            }
         }, 800);
         
         // Update page title
         document.title = `${jobData.title} at ${jobData.company} - BadgerCS Career Nexus`;
         
         // Set share link
-        shareJobLinkEl.value = window.location.href;
+        if (shareJobLinkEl) {
+            shareJobLinkEl.value = window.location.href;
+        }
+        
+        // Set modal share link if it exists
+        const modalShareLinkEl = document.getElementById('modalShareLink');
+        if (modalShareLinkEl) {
+            modalShareLinkEl.value = window.location.href;
+        }
     }, 1000);
 }
 
@@ -378,10 +494,10 @@ function populateJobDetails(jobData) {
     jobExperienceEl.textContent = jobData.experience;
     jobPostedDateEl.textContent = jobData.postedDate;
     
-    // Job description tab
+    // Job description
     jobDescriptionEl.innerHTML = jobData.description;
     
-    // Requirements tab
+    // Required skills
     skillsListEl.innerHTML = '';
     jobData.skills.forEach(skill => {
         const li = document.createElement('li');
@@ -389,6 +505,7 @@ function populateJobDetails(jobData) {
         skillsListEl.appendChild(li);
     });
     
+    // Qualifications
     qualificationsListEl.innerHTML = '';
     jobData.qualifications.forEach(qualification => {
         const li = document.createElement('li');
@@ -396,7 +513,7 @@ function populateJobDetails(jobData) {
         qualificationsListEl.appendChild(li);
     });
     
-    // Company tab
+    // Company info
     companyDescriptionEl.textContent = jobData.companyDescription;
     companySizeEl.textContent = jobData.companySize;
     companyIndustryEl.textContent = jobData.industry;
@@ -404,10 +521,10 @@ function populateJobDetails(jobData) {
     companyWebsiteEl.href = jobData.companyWebsite;
     
     // Company insights
-    employeeRatingEl.textContent = jobData.employeeRating;
-    workLifeBalanceEl.textContent = jobData.workLifeBalance;
-    careerGrowthEl.textContent = jobData.careerGrowth;
-    interviewDifficultyEl.textContent = jobData.interviewDifficulty;
+    if (employeeRatingEl) employeeRatingEl.textContent = jobData.employeeRating;
+    if (workLifeBalanceEl) workLifeBalanceEl.textContent = jobData.workLifeBalance;
+    if (careerGrowthEl) careerGrowthEl.textContent = jobData.careerGrowth;
+    if (interviewDifficultyEl) interviewDifficultyEl.textContent = jobData.interviewDifficulty;
     
     // Interview questions
     interviewQuestionsEl.innerHTML = '';
@@ -418,7 +535,9 @@ function populateJobDetails(jobData) {
     });
     
     // Apply modal job title
-    applyJobTitleEl.textContent = jobData.title;
+    if (applyJobTitleEl) {
+        applyJobTitleEl.textContent = jobData.title;
+    }
 }
 
 /**
@@ -449,7 +568,7 @@ function loadSimilarJobs(jobId) {
                         </div>
                     </div>
                     <button class="btn btn-sm btn-outline-secondary border-0 similar-job-bookmark" data-job-id="${job.id}">
-                        <i class="far fa-bookmark"></i>
+                        <i class="${isJobSaved(job.id) ? 'fas' : 'far'} fa-bookmark"></i>
                     </button>
                 </div>
             `;
@@ -478,18 +597,21 @@ function loadSavedJobs() {
 }
 
 /**
- * Check if current job is saved
- * @returns {boolean} - Whether current job is saved
+ * Check if a job is saved
+ * @param {string} jobId - Job ID to check
+ * @returns {boolean} - Whether job is saved
  */
-function isCurrentJobSaved() {
-    return savedJobs.includes(currentJobId);
+function isJobSaved(jobId) {
+    return savedJobs.includes(jobId);
 }
 
 /**
  * Update save button state based on whether job is saved
  */
 function updateSaveButtonState() {
-    if (isCurrentJobSaved()) {
+    if (!saveJobBtnEl) return;
+    
+    if (isJobSaved(currentJobId)) {
         saveJobBtnEl.classList.add('active');
         saveJobBtnEl.innerHTML = '<i class="fas fa-bookmark me-1"></i> <span id="saveJobText">Saved</span>';
     } else {
@@ -502,7 +624,7 @@ function updateSaveButtonState() {
  * Toggle saving the current job
  */
 function toggleSaveJob() {
-    if (isCurrentJobSaved()) {
+    if (isJobSaved(currentJobId)) {
         // Remove job from saved jobs
         const index = savedJobs.indexOf(currentJobId);
         savedJobs.splice(index, 1);
@@ -518,6 +640,29 @@ function toggleSaveJob() {
     
     // Update button state
     updateSaveButtonState();
+}
+
+/**
+ * Toggle saving a similar job
+ * @param {string} jobId - Job ID to toggle
+ * @param {HTMLElement} button - Button element that was clicked
+ */
+function toggleSaveSimilarJob(jobId, button) {
+    if (isJobSaved(jobId)) {
+        // Remove job from saved jobs
+        const index = savedJobs.indexOf(jobId);
+        savedJobs.splice(index, 1);
+        button.innerHTML = '<i class="far fa-bookmark"></i>';
+        showToast('Job removed from saved jobs.');
+    } else {
+        // Add job to saved jobs
+        savedJobs.push(jobId);
+        button.innerHTML = '<i class="fas fa-bookmark"></i>';
+        showToast('Job saved successfully!');
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('savedJobs', JSON.stringify(savedJobs));
 }
 
 /**
@@ -565,12 +710,18 @@ function copyJobLink() {
 }
 
 /**
+ * Copy modal share link to clipboard
+ */
+function copyModalLink() {
+    modalShareLinkEl.select();
+    document.execCommand('copy');
+    showToast('Link copied to clipboard!');
+}
+
+/**
  * Apply for job (mock functionality)
  */
 function applyForJob() {
-    // In a real app, this would submit the form data to the server
-    // For now, just show a success message and reset form
-    
     // Close modal
     const applyJobModal = bootstrap.Modal.getInstance(document.getElementById('applyJobModal'));
     applyJobModal.hide();
@@ -583,7 +734,6 @@ function applyForJob() {
     
     // Add to applications if checkbox is checked
     if (document.getElementById('saveApplication').checked) {
-        // This would save to localStorage or server in a real app
         showToast('Application saved to your dashboard.');
     }
 }
@@ -603,9 +753,6 @@ function addToApplications() {
         alert('Please select an application status.');
         return;
     }
-    
-    // In a real app, this would save the application data to localStorage or server
-    // For now, just show a success message
     
     // Get existing applications from localStorage
     let applications = [];
@@ -650,168 +797,75 @@ function addToApplications() {
  */
 function setupEventListeners() {
     // Save job button
-    saveJobBtnEl.addEventListener('click', toggleSaveJob);
+    if (saveJobBtnEl) {
+        saveJobBtnEl.addEventListener('click', toggleSaveJob);
+    }
     
     // Share job button
-    shareJobBtnEl.addEventListener('click', () => {
-        const shareModal = new bootstrap.Modal(document.getElementById('shareJobModal'));
-        shareModal.show();
-    });
+    if (shareJobBtnEl) {
+        shareJobBtnEl.addEventListener('click', () => {
+            const shareModal = new bootstrap.Modal(document.getElementById('shareJobModal'));
+            shareModal.show();
+        });
+    }
     
     // Apply now button
-    applyNowBtnEl.addEventListener('click', () => {
-        const applyModal = new bootstrap.Modal(document.getElementById('applyJobModal'));
-        applyModal.show();
-    });
+    if (applyNowBtnEl) {
+        applyNowBtnEl.addEventListener('click', () => {
+            const applyModal = new bootstrap.Modal(document.getElementById('applyJobModal'));
+            applyModal.show();
+        });
+    }
     
     // Add to applications button
-    addToApplicationsBtnEl.addEventListener('click', () => {
-        const addToApplicationsModal = new bootstrap.Modal(document.getElementById('addToApplicationsModal'));
-        addToApplicationsModal.show();
-        
-        // Set today's date as default
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('applicationDate').value = today;
-    });
+    if (addToApplicationsBtnEl) {
+        addToApplicationsBtnEl.addEventListener('click', () => {
+            const addToApplicationsModal = new bootstrap.Modal(document.getElementById('addToApplicationsModal'));
+            addToApplicationsModal.show();
+            
+            // Set today's date as default
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('applicationDate').value = today;
+        });
+    }
     
     // Copy link button
-    copyLinkBtnEl.addEventListener('click', copyJobLink);
+    if (copyLinkBtnEl) {
+        copyLinkBtnEl.addEventListener('click', copyJobLink);
+    }
+    
+    // Modal copy button
+    if (modalCopyBtnEl) {
+        modalCopyBtnEl.addEventListener('click', copyModalLink);
+    }
     
     // Share buttons
-    document.getElementById('shareLinkedIn').addEventListener('click', () => shareJob('linkedin'));
-    document.getElementById('shareTwitter').addEventListener('click', () => shareJob('twitter'));
-    document.getElementById('shareWhatsApp').addEventListener('click', () => shareJob('whatsapp'));
-    document.getElementById('shareEmail').addEventListener('click', () => shareJob('email'));
+    const shareLinkedIn = document.getElementById('shareLinkedIn');
+    const shareTwitter = document.getElementById('shareTwitter');
+    const shareWhatsApp = document.getElementById('shareWhatsApp');
+    const shareEmail = document.getElementById('shareEmail');
+    
+    if (shareLinkedIn) shareLinkedIn.addEventListener('click', () => shareJob('linkedin'));
+    if (shareTwitter) shareTwitter.addEventListener('click', () => shareJob('twitter'));
+    if (shareWhatsApp) shareWhatsApp.addEventListener('click', () => shareJob('whatsapp'));
+    if (shareEmail) shareEmail.addEventListener('click', () => shareJob('email'));
     
     // Submit application button
-    document.getElementById('submitApplication').addEventListener('click', applyForJob);
+    if (submitApplicationEl) {
+        submitApplicationEl.addEventListener('click', applyForJob);
+    }
     
     // Save to applications button
-    document.getElementById('saveToApplications').addEventListener('click', addToApplications);
+    if (saveToApplicationsEl) {
+        saveToApplicationsEl.addEventListener('click', addToApplications);
+    }
     
     // Add bookmark functionality to similar jobs
     document.addEventListener('click', (e) => {
-        if (e.target.closest('.similar-job-bookmark')) {
-            const button = e.target.closest('.similar-job-bookmark');
-            const jobId = button.dataset.jobId;
-            
-            // Toggle bookmark
-            if (savedJobs.includes(jobId)) {
-                // Remove job from saved jobs
-                const index = savedJobs.indexOf(jobId);
-                savedJobs.splice(index, 1);
-                button.innerHTML = '<i class="far fa-bookmark"></i>';
-                showToast('Job removed from saved jobs.');
-            } else {
-                // Add job to saved jobs
-                savedJobs.push(jobId);
-                button.innerHTML = '<i class="fas fa-bookmark"></i>';
-                showToast('Job saved successfully!');
-            }
-            
-            // Save to localStorage
-            localStorage.setItem('savedJobs', JSON.stringify(savedJobs));
+        const bookmarkBtn = e.target.closest('.similar-job-bookmark');
+        if (bookmarkBtn) {
+            const jobId = bookmarkBtn.dataset.jobId;
+            toggleSaveSimilarJob(jobId, bookmarkBtn);
         }
     });
-}
-
-/**
- * Show a toast notification
- * @param {string} message - Message to display
- */
-function showToast(message) {
-    // Create toast element
-    const toastEl = document.createElement('div');
-    toastEl.className = 'toast align-items-center text-white bg-dark border-0 position-fixed bottom-0 end-0 m-3';
-    toastEl.setAttribute('role', 'alert');
-    toastEl.setAttribute('aria-live', 'assertive');
-    toastEl.setAttribute('aria-atomic', 'true');
-    
-    toastEl.innerHTML = `
-        <div class="d-flex">
-            <div class="toast-body">
-                ${message}
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-    `;
-    
-    // Add to document
-    document.body.appendChild(toastEl);
-    
-    // Initialize and show toast
-    const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
-    toast.show();
-    
-    // Remove after hiding
-    toastEl.addEventListener('hidden.bs.toast', () => {
-        toastEl.remove();
-    });
-}
-
-/**
- * Show a success alert at the top of the page
- * @param {string} message - Message to display
- */
-function showSuccessAlert(message) {
-    // Create alert element
-    const alertEl = document.createElement('div');
-    alertEl.className = 'alert alert-success alert-dismissible fade show custom-alert';
-    alertEl.setAttribute('role', 'alert');
-    
-    alertEl.innerHTML = `
-        <i class="fas fa-check-circle me-2"></i> ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    `;
-    
-    // Add to document
-    document.body.appendChild(alertEl);
-    
-    // Auto-dismiss after 5 seconds
-    setTimeout(() => {
-        const bsAlert = new bootstrap.Alert(alertEl);
-        bsAlert.close();
-    }, 5000);
-    
-    // Remove after hiding
-    alertEl.addEventListener('closed.bs.alert', () => {
-        alertEl.remove();
-    });
-}
-
-// Fetch job data from external source (example of using fetch API as required)
-// This is just for demonstration - in this implementation we're using the mockJobDetails
-// but this shows how you would implement it with a real API
-function fetchJobData(jobId) {
-    fetch('js/jobs-data.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Find the job with matching ID
-            const jobData = data.jobs.find(job => job.id === jobId);
-            
-            if (jobData) {
-                // Use the fetched job data
-                currentJobData = jobData;
-                populateJobDetails(jobData);
-            } else {
-                throw new Error('Job not found');
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching job data:', error);
-            // Fall back to mock data if fetch fails
-            const jobData = mockJobDetails[jobId];
-            if (jobData) {
-                currentJobData = jobData;
-                populateJobDetails(jobData);
-            } else {
-                alert('Job not found. Redirecting to jobs page...');
-                window.location.href = 'jobs.html';
-            }
-        });
 }

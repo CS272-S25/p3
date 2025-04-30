@@ -27,6 +27,23 @@
           <li class="nav-item"><a class="nav-link" href="forum.html">Community</a></li>
           <li class="nav-item"><a class="nav-link" href="interview-prep.html">Interview Prep</a></li>
         </ul>
+        <!-- Login/Register or User Profile -->
+        <div id="authButtons" class="d-flex">
+          <a href="login.html" class="btn btn-outline-light me-2">Login</a>
+          <a href="register.html" class="btn btn-danger">Register</a>
+        </div>
+        <div id="userProfile" class="dropdown d-none">
+          <button class="btn btn-outline-light dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user-circle me-1"></i>
+            <span id="username">User</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+            <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+            <li><a class="dropdown-item" href="dashboard.html">Dashboard</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><button class="dropdown-item" id="logoutBtn">Logout</button></li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
@@ -47,6 +64,23 @@
               </p>
             </div>
           </div>
+          
+          <!-- Action Buttons - Added missing buttons -->
+          <div class="action-buttons mb-4">
+            <button id="applyNowBtn" class="btn btn-primary me-2">
+              <i class="fas fa-paper-plane me-1"></i> Apply Now
+            </button>
+            <button id="saveJobBtn" class="btn btn-outline-secondary me-2">
+              <i class="far fa-bookmark me-1"></i> <span id="saveJobText">Save Job</span>
+            </button>
+            <button id="shareJobBtn" class="btn btn-outline-secondary me-2">
+              <i class="fas fa-share-alt me-1"></i> Share
+            </button>
+            <button id="addToApplicationsBtn" class="btn btn-outline-secondary">
+              <i class="fas fa-clipboard-list me-1"></i> Track Application
+            </button>
+          </div>
+          
           <div class="row mb-4">
             <div class="col-md-3 col-6"><span class="text-muted">Salary</span><br><span id="jobSalary" class="fw-bold"></span></div>
             <div class="col-md-3 col-6"><span class="text-muted">Job Type</span><br><span id="jobType" class="fw-bold"></span></div>
@@ -71,18 +105,192 @@
         </div>
       </div>
       <div class="col-lg-4">
-        <h5>Similar Jobs</h5>
-        <div id="similarJobsList" class="mb-4">
-          <div class="spinner-border text-primary my-3" role="status"></div>
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-light">
+            <h5 class="mb-0">Similar Jobs</h5>
+          </div>
+          <div class="card-body p-0">
+            <ul id="similarJobsList" class="list-group list-group-flush">
+              <li class="list-group-item text-center py-3">
+                <div class="spinner-border text-primary" role="status"></div>
+              </li>
+            </ul>
+          </div>
         </div>
-        <h5>Company Insights</h5>
-        <div id="companyInsights">
-          <div id="companyInsightsLoader" class="spinner-border text-primary my-3" role="status"></div>
+        
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-light">
+            <h5 class="mb-0">Company Insights</h5>
+          </div>
+          <div class="card-body">
+            <div id="companyInsights">
+              <div id="companyInsightsLoader" class="spinner-border text-primary my-3" role="status"></div>
+            </div>
+          </div>
         </div>
-        <div class="mt-4">
-          <label for="shareJobLink" class="form-label">Share Job</label>
-          <input id="shareJobLink" class="form-control" type="text" readonly>
-          <button class="btn btn-sm btn-outline-primary mt-2" id="copyLinkBtn">Copy Link</button>
+        
+        <div class="card shadow-sm">
+          <div class="card-header bg-light">
+            <h5 class="mb-0">Share Job</h5>
+          </div>
+          <div class="card-body">
+            <label for="shareJobLink" class="form-label">Job Link</label>
+            <input id="shareJobLink" class="form-control" type="text" readonly>
+            <button class="btn btn-sm btn-outline-primary mt-2" id="copyLinkBtn">Copy Link</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share Job Modal -->
+  <div class="modal fade" id="shareJobModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Share This Job</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="share-options">
+            <div class="share-option" id="shareLinkedIn">
+              <div class="share-icon bg-primary text-white">
+                <i class="fab fa-linkedin-in"></i>
+              </div>
+              <span class="share-label">LinkedIn</span>
+            </div>
+            <div class="share-option" id="shareTwitter">
+              <div class="share-icon bg-info text-white">
+                <i class="fab fa-twitter"></i>
+              </div>
+              <span class="share-label">Twitter</span>
+            </div>
+            <div class="share-option" id="shareWhatsApp">
+              <div class="share-icon bg-success text-white">
+                <i class="fab fa-whatsapp"></i>
+              </div>
+              <span class="share-label">WhatsApp</span>
+            </div>
+            <div class="share-option" id="shareEmail">
+              <div class="share-icon bg-secondary text-white">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <span class="share-label">Email</span>
+            </div>
+          </div>
+          <div class="mt-4">
+            <label for="modalShareLink" class="form-label">Or copy link</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="modalShareLink" readonly>
+              <button class="btn btn-outline-secondary" type="button" id="modalCopyBtn">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Apply Job Modal -->
+  <div class="modal fade" id="applyJobModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Apply for <span id="applyJobTitle"></span></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="jobApplicationForm">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="firstName" class="form-label required">First Name</label>
+                <input type="text" class="form-control" id="firstName" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="lastName" class="form-label required">Last Name</label>
+                <input type="text" class="form-control" id="lastName" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label required">Email</label>
+              <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label required">Phone</label>
+              <input type="tel" class="form-control" id="phone" required>
+            </div>
+            <div class="mb-3">
+              <label for="resume" class="form-label required">Resume</label>
+              <input type="file" class="form-control" id="resume" required>
+            </div>
+            <div class="mb-3">
+              <label for="coverLetter" class="form-label">Cover Letter</label>
+              <textarea class="form-control" id="coverLetter" rows="4"></textarea>
+            </div>
+            <div class="mb-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="saveApplication">
+                <label class="form-check-label" for="saveApplication">
+                  Save application to my dashboard
+                </label>
+              </div>
+            </div>
+          </form>
+          <div class="alert alert-info mt-3">
+            <h6 class="alert-heading mb-2"><i class="fas fa-lightbulb me-2"></i> Application Tips</h6>
+            <ul class="mb-0 ps-3">
+              <li>Tailor your resume to highlight relevant experience</li>
+              <li>Mention specific skills listed in the job description</li>
+              <li>Proofread your application for grammar and spelling errors</li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="submitApplication">Submit Application</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Track Application Modal -->
+  <div class="modal fade" id="addToApplicationsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Track Application</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="trackApplicationForm">
+            <div class="mb-3">
+              <label for="applicationStatus" class="form-label required">Application Status</label>
+              <select class="form-select" id="applicationStatus" required>
+                <option value="">Select status</option>
+                <option value="Saved">Saved</option>
+                <option value="Applied">Applied</option>
+                <option value="Phone Screen">Phone Screen</option>
+                <option value="Interview">Interview</option>
+                <option value="Offer">Offer</option>
+                <option value="Rejected">Rejected</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="applicationDate" class="form-label">Application Date</label>
+              <input type="date" class="form-control" id="applicationDate">
+            </div>
+            <div class="mb-3">
+              <label for="applicationNotes" class="form-label">Notes</label>
+              <textarea class="form-control" id="applicationNotes" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="applicationReminder" class="form-label">Set Reminder</label>
+              <input type="date" class="form-control" id="applicationReminder">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="saveToApplications">Save</button>
         </div>
       </div>
     </div>
