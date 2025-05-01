@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setupInfiniteScroll();
 
     // Load user posts from localStorage
-    loadUserPosts();
+    loadAllVisiblePosts();
 });
 
 /**
@@ -667,25 +667,177 @@ function createNewPost(content) {
 function saveUserPost(content) {
     const userId = localStorage.getItem('userId');
     if (!userId) return;
-
+    
+    // Get post visibility setting
+    const visibilitySelector = document.getElementById('postVisibility');
+    const visibility = visibilitySelector ? visibilitySelector.value : 'public';
+    
     // Get existing user posts from localStorage
     let userPosts = JSON.parse(localStorage.getItem('userPosts') || '{}');
-
+    
     // Initialize if needed
     if (!userPosts[userId]) {
         userPosts[userId] = { posts: [], comments: {} };
     }
-
+    
     // Add new post
     userPosts[userId].posts.push({
         content: content,
         timestamp: new Date().toISOString(),
         likes: 0,
-        comments: []
+        comments: [],
+        visibility: visibility // Save visibility setting
     });
-
+    
     // Save back to localStorage
     localStorage.setItem('userPosts', JSON.stringify(userPosts));
+    
+    // If post is public, also save to public posts collection
+    if (visibility === 'public') {
+        let publicPosts = JSON.parse(localStorage.getItem('publicPosts') || '[]');
+        
+        publicPosts.push({
+            userId: userId,
+            content: content,
+            timestamp: new Date().toISOString(),
+            likes: 0,
+            comments: []
+        });
+        
+        // Save back to localStorage
+        localStorage.setItem('publicPosts', JSON.stringify(publicPosts));
+    }
+}
+
+/**
+ * Load all posts that should be visible to the current user
+ */
+function loadAllVisiblePosts() {
+    const userId = localStorage.getItem('userId');
+    const postsFeed = document.getElementById('postsFeed');
+    
+    // Clear existing posts if needed
+    // postsFeed.innerHTML = '';
+    
+    // Array to store all posts that should be shown
+    let allVisiblePosts = [];
+    
+    // 1. Load public posts (visible to everyone)
+    const publicPosts = JSON.parse(localStorage.getItem('publicPosts') || '[]');
+    allVisiblePosts = [...publicPosts];
+    
+    // 2. If user is logged in, load their personal/connections-only posts
+    if (userId) {
+        const userPosts = JSON.parse(localStorage.getItem('userPosts') || '{}');
+        
+        // Add personal posts if they exist
+        if (userPosts[userId] && userPosts[userId].posts) {
+            userPosts[userId].posts.forEach(post => {
+                // Only add non-public posts here (public ones are already in the list)
+                if (post.visibility !== 'public') {
+                    allVisiblePosts.push({
+                        userId: userId,
+                        ...post
+                    });
+                }
+            });
+        }
+        
+        // Future enhancement: Add posts from connections (if visibility is 'connections')
+    }
+    
+    // Sort all posts by timestamp (newest first)
+    allVisiblePosts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    
+    // Display all visible posts
+    allVisiblePosts.forEach(post => {
+        displayPost(post);
+    });
+}
+/**
+ * Display a single post in the feed
+ * @param {Object} post - Post data
+ */
+function displayPost(post) {
+    const postsFeed = document.getElementById('postsFeed');
+    if (!postsFeed) return;
+    
+    // Get user ID for the post author (might be current user or another user)
+    const postUserId = post.userId;
+    
+    // Format the content
+    let formattedContent = post.content
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/## (.*?)$/gm, '<h5>$1</h5>')
+        .replace(/- (.*?)$/gm, '<li>$1</li>')
+        .replace(/<li>(.*?)<\/li>/gm, function(match) {
+            return '<ul>' + match + '</ul>';
+        })
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        .replace(/\n/g, '<br>');
+    
+    // Replace #hashtags with styled spans
+    formattedContent = formattedContent.replace(/#(\w+)/g, '<span class="badge bg-light text-dark">#$1</span>');
+    
+    // Format date
+    const postDate = new Date(post.timestamp);
+    const dateString = postDate.toLocaleDateString();
+    
+    // Create post element
+    const postElement = document.createElement('div');
+    postElement.className = 'card shadow-sm mb-4 post';
+    
+    // Add data attribute to identify the post
+    postElement.dataset.postUserId = postUserId;
+    postElement.dataset.timestamp = post.timestamp;
+    
+    // Determine if this is the current user's post
+    const isCurrentUserPost = localStorage.getItem('userId') === postUserId;
+    
+    postElement.innerHTML = `
+        <div class="card-header bg-white border-0">
+            <div class="d-flex align-items-center">
+                <img src="https://via.placeholder.com/40" class="rounded-circle me-2" alt="User Avatar">
+                <div>
+                    <h6 class="mb-0">User_${postUserId.substring(0, 4)}</h6>
+                    <small class="text-muted">${dateString}</small>
+                </div>
+                ${isCurrentUserPost ? `
+                <div class="ms-auto">
+                    <button class="btn btn-sm btn-link text-muted">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                </div>
+                ` : ''}
+            </div>
+        </div>
+        <div class="card-body">
+            <p>${formattedContent}</p>
+            <div class="post-actions d-flex">
+                <button class="btn btn-sm btn-link text-muted me-3">
+                    <i class="far fa-heart me-1"></i> ${post.likes || 0} likes
+                </button>
+                <button class="btn btn-sm btn-link text-muted me-3">
+                    <i class="far fa-comment me-1"></i> ${post.comments ? post.comments.length : 0} replies
+                </button>
+                <button class="btn btn-sm btn-link text-muted">
+                    <i class="far fa-bookmark"></i>
+                </button>
+            </div>
+        </div>
+    `;
+    
+    // Add to the feed at the top
+    if (postsFeed.firstChild) {
+        postsFeed.insertBefore(postElement, postsFeed.firstChild);
+    } else {
+        postsFeed.appendChild(postElement);
+    }
+    
+    // Setup interactions for the new post
+    setupPostInteractions();
 }
 
 /**
