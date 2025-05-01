@@ -396,34 +396,132 @@ function loadSavedJobs() {
 }
 
 /**
- * Check if a job is saved
+ * Check if a job is saved - MODIFIED FUNCTION
  * @param {string} jobId - Job ID to check
  * @returns {boolean} - Whether job is saved
  */
 function isJobSaved(jobId) {
-    return savedJobs.includes(jobId);
+    // If user is not logged in, job cannot be saved
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+        return false;
+    }
+    
+    // Check user-specific saved jobs
+    const userSavedJobsKey = `savedJobs_${userId}`;
+    const savedJobsData = localStorage.getItem(userSavedJobsKey);
+    
+    if (savedJobsData) {
+        const userSavedJobs = JSON.parse(savedJobsData);
+        return userSavedJobs.includes(jobId);
+    }
+    
+    return false;
 }
 
 /**
- * Toggle saving a job
+ * Load saved jobs from localStorage - MODIFIED FUNCTION
+ */
+function loadSavedJobs() {
+    // Clear saved jobs array
+    savedJobs = [];
+    
+    // Get user ID
+    const userId = localStorage.getItem('userId');
+    
+    // If user is not logged in, hide saved jobs section
+    if (!userId) {
+        if (savedJobsSectionEl) {
+            savedJobsSectionEl.style.display = 'none';
+        }
+        return;
+    }
+    
+    // Get user-specific saved jobs
+    const userSavedJobsKey = `savedJobs_${userId}`;
+    const savedJobsData = localStorage.getItem(userSavedJobsKey);
+
+    if (savedJobsData) {
+        savedJobs = JSON.parse(savedJobsData);
+
+        // Display saved jobs section if there are saved jobs
+        if (savedJobs.length > 0 && savedJobsSectionEl) {
+            savedJobsSectionEl.style.display = 'block';
+            if (noSavedJobsEl) {
+                noSavedJobsEl.style.display = 'none';
+            }
+
+            // Clear existing content
+            if (savedJobsListingsEl) {
+                savedJobsListingsEl.innerHTML = '';
+
+                // Find the job data for each saved job ID
+                savedJobs.forEach(jobId => {
+                    const jobData = mockJobListings.find(job => job.id === jobId);
+
+                    if (jobData) {
+                        const jobCard = createJobCard(jobData);
+                        savedJobsListingsEl.appendChild(jobCard);
+                    }
+                });
+            }
+        } else if (savedJobsSectionEl) {
+            savedJobsSectionEl.style.display = 'block';
+            if (noSavedJobsEl) {
+                noSavedJobsEl.style.display = 'block';
+            }
+        }
+    } else if (savedJobsSectionEl) {
+        savedJobsSectionEl.style.display = 'block';
+        if (noSavedJobsEl) {
+            noSavedJobsEl.style.display = 'block';
+        }
+    }
+}
+
+/**
+ * Toggle saving a job - MODIFIED FUNCTION
  * @param {string} jobId - Job ID to toggle
  */
 function toggleSaveJob(jobId) {
-    const index = savedJobs.indexOf(jobId);
+    // Check if user is logged in
+    const userId = localStorage.getItem('userId');
+    
+    if (!userId) {
+        // User is not logged in, show alert
+        alert('You need to be logged in to save jobs. Please sign in or register.');
+        return;
+    }
+
+    // Use a unique key for each user's saved jobs
+    const userSavedJobsKey = `savedJobs_${userId}`;
+    
+    // Get user's saved jobs
+    let userSavedJobs = [];
+    const savedJobsData = localStorage.getItem(userSavedJobsKey);
+    
+    if (savedJobsData) {
+        userSavedJobs = JSON.parse(savedJobsData);
+    }
+    
+    const index = userSavedJobs.indexOf(jobId);
 
     if (index === -1) {
         // Job is not saved, add it
-        savedJobs.push(jobId);
+        userSavedJobs.push(jobId);
         showToast('Job saved to your list!');
     } else {
         // Job is already saved, remove it
-        savedJobs.splice(index, 1);
+        userSavedJobs.splice(index, 1);
         showToast('Job removed from your list.');
     }
 
-    // Save to localStorage
-    localStorage.setItem('savedJobs', JSON.stringify(savedJobs));
+    // Save to localStorage with user-specific key
+    localStorage.setItem(userSavedJobsKey, JSON.stringify(userSavedJobs));
 
+    // Update savedJobs array for the current session
+    savedJobs = userSavedJobs;
+    
     // Reload saved jobs section
     loadSavedJobs();
 
@@ -522,20 +620,37 @@ function searchJobs() {
 }
 
 /**
- * Clear all filters and reset to original data
+ * Clear all saved jobs - MODIFIED FUNCTION
  */
-function clearFilters() {
-    // Reset filter form
-    document.getElementById('jobFilters').reset();
+function clearAllSavedJobs() {
+    const userId = localStorage.getItem('userId');
+    
+    // Only allow logged in users to clear saved jobs
+    if (!userId) {
+        alert('You need to be logged in to manage saved jobs.');
+        return;
+    }
+    
+    if (confirm('Are you sure you want to clear all saved jobs?')) {
+        // Clear saved jobs
+        savedJobs = [];
 
-    // Reset current jobs to original data
-    currentJobs = [...mockJobListings];
+        // Save to localStorage with user-specific key
+        const userSavedJobsKey = `savedJobs_${userId}`;
+        localStorage.setItem(userSavedJobsKey, JSON.stringify(savedJobs));
 
-    // Clear search box
-    searchJobsEl.value = '';
+        // Reload saved jobs section
+        loadSavedJobs();
 
-    // Reload job listings
-    loadJobListings();
+        // Update all bookmark buttons
+        const bookmarkBtns = document.querySelectorAll('.bookmark-btn');
+        bookmarkBtns.forEach(btn => {
+            btn.classList.remove('active');
+            btn.innerHTML = '<i class="far fa-bookmark"></i>';
+        });
+
+        showToast('All saved jobs have been cleared.');
+    }
 }
 
 /**

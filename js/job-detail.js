@@ -1219,11 +1219,23 @@ function loadSimilarJobs(jobId) {
 }
 
 /**
- * Load saved jobs from localStorage
+ * Load saved jobs from localStorage - MODIFIED FUNCTION
  */
 function loadSavedJobs() {
-    // Get saved jobs from localStorage
-    const savedJobsData = localStorage.getItem('savedJobs');
+    // Clear saved jobs array
+    savedJobs = [];
+    
+    // Get user ID
+    const userId = localStorage.getItem('userId');
+    
+    // If user is not logged in, don't load saved jobs
+    if (!userId) {
+        return;
+    }
+    
+    // Get user-specific saved jobs
+    const userSavedJobsKey = `savedJobs_${userId}`;
+    const savedJobsData = localStorage.getItem(userSavedJobsKey);
 
     if (savedJobsData) {
         savedJobs = JSON.parse(savedJobsData);
@@ -1231,12 +1243,27 @@ function loadSavedJobs() {
 }
 
 /**
- * Check if a job is saved
+ * Check if a job is saved - MODIFIED FUNCTION
  * @param {string} jobId - Job ID to check
  * @returns {boolean} - Whether job is saved
  */
 function isJobSaved(jobId) {
-    return savedJobs.includes(jobId);
+    // If user is not logged in, job cannot be saved
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+        return false;
+    }
+    
+    // Check user-specific saved jobs
+    const userSavedJobsKey = `savedJobs_${userId}`;
+    const savedJobsData = localStorage.getItem(userSavedJobsKey);
+    
+    if (savedJobsData) {
+        const userSavedJobs = JSON.parse(savedJobsData);
+        return userSavedJobs.includes(jobId);
+    }
+    
+    return false;
 }
 
 /**
@@ -1255,9 +1282,21 @@ function updateSaveButtonState() {
 }
 
 /**
- * Toggle saving the current job
+ * Toggle saving the current job - MODIFIED FUNCTION
  */
 function toggleSaveJob() {
+    // Check if user is logged in
+    const userId = localStorage.getItem('userId');
+    
+    if (!userId) {
+        // User is not logged in, show alert
+        alert('You need to be logged in to save jobs. Please sign in or register.');
+        return;
+    }
+    
+    // Use a unique key for each user's saved jobs
+    const userSavedJobsKey = `savedJobs_${userId}`;
+    
     if (isJobSaved(currentJobId)) {
         // Remove job from saved jobs
         const index = savedJobs.indexOf(currentJobId);
@@ -1269,19 +1308,31 @@ function toggleSaveJob() {
         showToast('Job saved successfully!');
     }
 
-    // Save to localStorage
-    localStorage.setItem('savedJobs', JSON.stringify(savedJobs));
+    // Save to localStorage with user-specific key
+    localStorage.setItem(userSavedJobsKey, JSON.stringify(savedJobs));
 
     // Update button state
     updateSaveButtonState();
 }
 
 /**
- * Toggle saving a similar job
+ * Toggle saving a similar job - MODIFIED FUNCTION
  * @param {string} jobId - Job ID to toggle
  * @param {HTMLElement} button - Button element that was clicked
  */
 function toggleSaveSimilarJob(jobId, button) {
+    // Check if user is logged in
+    const userId = localStorage.getItem('userId');
+    
+    if (!userId) {
+        // User is not logged in, show alert
+        alert('You need to be logged in to save jobs. Please sign in or register.');
+        return;
+    }
+    
+    // Use a unique key for each user's saved jobs
+    const userSavedJobsKey = `savedJobs_${userId}`;
+    
     if (isJobSaved(jobId)) {
         // Remove job from saved jobs
         const index = savedJobs.indexOf(jobId);
@@ -1295,8 +1346,8 @@ function toggleSaveSimilarJob(jobId, button) {
         showToast('Job saved successfully!');
     }
 
-    // Save to localStorage
-    localStorage.setItem('savedJobs', JSON.stringify(savedJobs));
+    // Save to localStorage with user-specific key
+    localStorage.setItem(userSavedJobsKey, JSON.stringify(savedJobs));
 }
 
 /**
