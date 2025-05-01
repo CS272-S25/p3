@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,17 +14,22 @@
     <!-- Page specific CSS -->
     <link rel="stylesheet" href="css/forum.css">
     <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>" type="image/svg+xml">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>"
+        type="image/svg+xml">
 </head>
+
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container">
             <a class="navbar-brand" href="index.html">
-                <img src="images/badgercs-logo.svg" alt="BadgerCS Logo" width="30" height="30" class="d-inline-block align-top">
+                <img src="images/badgercs-logo.svg" alt="BadgerCS Logo" width="30" height="30"
+                    class="d-inline-block align-top">
                 BadgerCS Career Nexus
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -99,24 +105,31 @@
                 <div class="card shadow-sm mb-4">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">
-                            <div class="user-avatar me-2">
-                                <img src="https://via.placeholder.com/40" alt="User Avatar" class="rounded-circle">
+                            <div class="post-avatar-container">
+                                <img src="https://api.dicebear.com/9.x/pixel-art/svg?seed=user1" class="avatar-img"
+                                    alt="User Avatar">
                             </div>
                             <div class="flex-grow-1">
-                                <input type="text" class="form-control" id="postInput" placeholder="Share something with the community..." data-bs-toggle="modal" data-bs-target="#createPostModal" readonly>
+                                <input type="text" class="form-control" id="postInput"
+                                    placeholder="Share something with the community..." data-bs-toggle="modal"
+                                    data-bs-target="#createPostModal" readonly>
                             </div>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#createPostModal">
+                            <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#createPostModal">
                                 <i class="fas fa-image me-1"></i> Image
                             </button>
-                            <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#createPostModal">
+                            <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#createPostModal">
                                 <i class="fas fa-link me-1"></i> Link
                             </button>
-                            <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#createPostModal">
+                            <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#createPostModal">
                                 <i class="fas fa-poll me-1"></i> Poll
                             </button>
-                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createPostModal">
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#createPostModal">
                                 <i class="fas fa-pen me-1"></i> Create Post
                             </button>
                         </div>
@@ -151,7 +164,10 @@
                     <div class="card shadow-sm mb-4 post">
                         <div class="card-header bg-white border-0">
                             <div class="d-flex align-items-center">
-                                <img src="https://via.placeholder.com/40" class="rounded-circle me-2" alt="User Avatar">
+                                <div class="post-avatar-container">
+                                    <img src="https://api.dicebear.com/9.x/pixel-art/svg?seed=user2" class="avatar-img"
+                                        alt="User Avatar">
+                                </div>
                                 <div>
                                     <h6 class="mb-0">Carl Levingston</h6>
                                     <small class="text-muted">Computer Science • 2024</small>
@@ -166,11 +182,13 @@
                         <div class="card-body">
                             <p>I have a job interview tomorrow and am definitely going to use some of these tips.</p>
                             <div class="post-image mb-3">
-                                <img src="https://source.unsplash.com/random/600x400/?interview" class="img-fluid rounded" alt="Interview Image">
+                                <img src="https://source.unsplash.com/random/600x400/?interview"
+                                    class="img-fluid rounded" alt="Interview Image">
                             </div>
                             <div class="post-link-preview mb-3 p-3 border rounded">
                                 <h6>3 interview tips for college students</h6>
-                                <p class="mb-1 small text-muted">Up your interview game with research, answer preparation, and proper attire</p>
+                                <p class="mb-1 small text-muted">Up your interview game with research, answer
+                                    preparation, and proper attire</p>
                                 <small class="text-muted">interviewshake.com</small>
                             </div>
                             <div class="post-actions d-flex">
@@ -191,7 +209,10 @@
                     <div class="card shadow-sm mb-4 post">
                         <div class="card-header bg-white border-0">
                             <div class="d-flex align-items-center">
-                                <img src="https://via.placeholder.com/40" class="rounded-circle me-2" alt="User Avatar">
+                                <div class="post-avatar-container">
+                                    <img src="https://api.dicebear.com/9.x/pixel-art/svg?seed=user3" class="avatar-img"
+                                        alt="User Avatar">
+                                </div>
                                 <div>
                                     <h6 class="mb-0">Madison Kim</h6>
                                     <small class="text-muted">Computer Science • 2023</small>
@@ -204,7 +225,8 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <p>Just accepted an offer at Microsoft as a Software Engineer! 🎉 For those still applying, happy to chat about the interview process or review your resume.</p>
+                            <p>Just accepted an offer at Microsoft as a Software Engineer! 🎉 For those still applying,
+                                happy to chat about the interview process or review your resume.</p>
                             <div class="post-actions d-flex">
                                 <button class="btn btn-sm btn-link text-muted me-3">
                                     <i class="far fa-heart me-1"></i> 48 likes
@@ -219,28 +241,39 @@
                             <hr>
                             <div class="comments">
                                 <div class="d-flex mb-3">
-                                    <img src="https://via.placeholder.com/32" class="rounded-circle me-2" alt="User Avatar" width="32" height="32">
+                                    <div class="comment-avatar-container">
+                                        <img src="https://api.dicebear.com/9.x/pixel-art/svg?seed=user4"
+                                            class="avatar-img" alt="User Avatar">
+                                    </div>
                                     <div class="comment-bubble">
                                         <div class="comment-header d-flex justify-content-between">
                                             <strong>Tyler Johnson</strong>
                                             <small class="text-muted">2 days ago</small>
                                         </div>
-                                        <p class="mb-0">Congratulations! Would love to hear about the interview process.</p>
+                                        <p class="mb-0">Congratulations! Would love to hear about the interview process.
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="d-flex mb-3">
-                                    <img src="https://via.placeholder.com/32" class="rounded-circle me-2" alt="User Avatar" width="32" height="32">
+                                    <div class="comment-avatar-container">
+                                        <img src="https://api.dicebear.com/9.x/pixel-art/svg?seed=user5"
+                                            class="avatar-img" alt="User Avatar">
+                                    </div>
                                     <div class="comment-bubble">
                                         <div class="comment-header d-flex justify-content-between">
                                             <strong>Madison Kim</strong>
                                             <small class="text-muted">1 day ago</small>
                                         </div>
-                                        <p class="mb-0">Thanks! It was 4 rounds - initial screen, 2 technical, and a final with the hiring manager. DM me if you want more details!</p>
+                                        <p class="mb-0">Thanks! It was 4 rounds - initial screen, 2 technical, and a
+                                            final with the hiring manager. DM me if you want more details!</p>
                                     </div>
                                 </div>
                                 <div class="add-comment d-flex align-items-center">
-                                    <img src="https://via.placeholder.com/32" class="rounded-circle me-2" alt="User Avatar" width="32" height="32">
-                                    <input type="text" class="form-control form-control-sm" placeholder="Write a comment...">
+                                    <div class="comment-avatar-container">
+                                        <img src="https://api.dicebear.com/9.x/pixel-art/svg?seed=user6"
+                                            class="avatar-img" alt="User Avatar">
+                                    </div> <input type="text" class="form-control form-control-sm"
+                                        placeholder="Write a comment...">
                                     <button class="btn btn-sm btn-primary ms-2">Post</button>
                                 </div>
                             </div>
@@ -251,7 +284,10 @@
                     <div class="card shadow-sm mb-4 post">
                         <div class="card-header bg-white border-0">
                             <div class="d-flex align-items-center">
-                                <img src="https://via.placeholder.com/40" class="rounded-circle me-2" alt="User Avatar">
+                                <div class="post-avatar-container">
+                                    <img src="https://api.dicebear.com/9.x/pixel-art/svg?seed=user7" class="avatar-img"
+                                        alt="User Avatar">
+                                </div>
                                 <div>
                                     <h6 class="mb-0">Prof. Sarah Williams</h6>
                                     <small class="text-muted">Faculty • Computer Science Department</small>
@@ -264,7 +300,9 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <p>Exciting opportunity! The CS department is hosting a career fair next month with Google, Amazon, Microsoft, and more. Make sure to update your resumes and sign up through the link below:</p>
+                            <p>Exciting opportunity! The CS department is hosting a career fair next month with Google,
+                                Amazon, Microsoft, and more. Make sure to update your resumes and sign up through the
+                                link below:</p>
                             <a href="#" class="btn btn-outline-primary mb-3">Register for Career Fair</a>
                             <div class="post-actions d-flex">
                                 <button class="btn btn-sm btn-link text-muted me-3">
@@ -369,7 +407,10 @@
                     </div>
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">
-                            <img src="https://via.placeholder.com/40" class="rounded-circle me-2" alt="User Avatar">
+                            <div class="post-avatar-container">
+                                <img src="https://api.dicebear.com/9.x/pixel-art/svg?seed=user8" class="avatar-img"
+                                    alt="User Avatar">
+                            </div>
                             <div>
                                 <h6 class="mb-0">Alex Chen</h6>
                                 <small class="text-muted">Software Engineer at Google</small>
@@ -377,7 +418,10 @@
                             <button class="btn btn-sm btn-outline-primary ms-auto">Connect</button>
                         </div>
                         <div class="d-flex align-items-center mb-3">
-                            <img src="https://via.placeholder.com/40" class="rounded-circle me-2" alt="User Avatar">
+                            <div class="post-avatar-container">
+                                <img src="https://api.dicebear.com/9.x/pixel-art/svg?seed=user9" class="avatar-img"
+                                    alt="User Avatar">
+                            </div>
                             <div>
                                 <h6 class="mb-0">Jordan Lee</h6>
                                 <small class="text-muted">CS Graduate Student</small>
@@ -385,7 +429,10 @@
                             <button class="btn btn-sm btn-outline-primary ms-auto">Connect</button>
                         </div>
                         <div class="d-flex align-items-center">
-                            <img src="https://via.placeholder.com/40" class="rounded-circle me-2" alt="User Avatar">
+                            <div class="post-avatar-container">
+                                <img src="https://api.dicebear.com/9.x/pixel-art/svg?seed=user10" class="avatar-img"
+                                    alt="User Avatar">
+                            </div>
                             <div>
                                 <h6 class="mb-0">Taylor Smith</h6>
                                 <small class="text-muted">CS Class of 2023</small>
@@ -408,7 +455,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3 d-flex align-items-center">
-                        <img src="https://via.placeholder.com/40" class="rounded-circle me-2" alt="User Avatar">
+                        <div class="post-avatar-container">
+                            <img src="https://api.dicebear.com/9.x/pixel-art/svg?seed=user11" class="avatar-img"
+                                alt="User Avatar">
+                        </div>
                         <div>
                             <h6 class="mb-0" id="currentUserName">User_1234</h6>
                             <select class="form-select form-select-sm mt-1" id="postVisibility">
@@ -419,7 +469,8 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <textarea class="form-control" id="postContent" rows="5" placeholder="What would you like to share?"></textarea>
+                        <textarea class="form-control" id="postContent" rows="5"
+                            placeholder="What would you like to share?"></textarea>
                     </div>
                     <div id="postPreview" class="d-none mb-3 p-2 border rounded">
                         <div class="d-flex justify-content-between align-items-center mb-2">
@@ -487,7 +538,8 @@
                         <li><a href="index.html" class="text-decoration-none text-light">Home</a></li>
                         <li><a href="jobs.html" class="text-decoration-none text-light">Jobs</a></li>
                         <li><a href="forum.html" class="text-decoration-none text-light">Community Forum</a></li>
-                        <li><a href="interview-prep.html" class="text-decoration-none text-light">Interview Prep</a></li>
+                        <li><a href="interview-prep.html" class="text-decoration-none text-light">Interview Prep</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-md-4 mb-3">
@@ -519,4 +571,5 @@
     <!-- Page specific JavaScript -->
     <script src="js/forum.js"></script>
 </body>
+
 </html>
