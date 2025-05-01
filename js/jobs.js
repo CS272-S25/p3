@@ -173,7 +173,7 @@ function checkLoginStatus() {
             
             // Create profile button that links directly to user_file.html
             const profileLink = document.createElement('a');
-            profileLink.href = 'user_file.html';
+            profileLink.href = 'user_file.html';  // Link to the user profile page
             profileLink.className = 'btn btn-outline-light me-2';
             
             // Add user icon and username
