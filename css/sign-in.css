@@ -1,4 +1,3 @@
-/* Add these styles or modify your existing CSS */
 body {
   margin: 0;
   padding: 0;
@@ -6,7 +5,7 @@ body {
   background-image: url('../images/background.jpg');
   background-size: cover;
   background-position: center;
-  min-height: 100vh;
+  /* Remove any overflow: hidden that might be preventing scrolling */
 }
 
 .login-wrapper {
@@ -16,37 +15,116 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent overlay */
+  background-color: rgba(0, 0, 0, 0.6);
   padding: 2rem;
   box-sizing: border-box;
+  /* Add overflow-y to allow scrolling */
+  overflow-y: auto;
 }
 
 .login-box {
   background: #E8E8E5;
   border-radius: 1.5rem;
-  padding: 2.5rem;
-  width: 100%;
-  max-width: 25rem; /* Using relative size */
+  padding: 2rem;
+  width: 90%;  /* Use percentage instead of fixed width */
+  max-width: 25rem;
   box-shadow: 0 0.625rem 1.875rem rgba(0, 0, 0, 0.2);
   text-align: center;
+  /* Allow internal scrolling if needed */
+  max-height: 90vh;
+  overflow-y: auto;
+  margin: 1rem 0;
 }
 
-.logo-img {
-  max-height: 5rem; /* Relative size */
-  width: auto;
+/* Make form elements more responsive */
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
   margin-bottom: 1rem;
 }
 
-/* Fix button positioning */
+/* Responsive buttons */
 .d-flex {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  gap: 1rem; /* Adds spacing between buttons */
+  gap: 1rem;
+  flex-wrap: wrap; /* Allow buttons to wrap on very small screens */
 }
 
+/* Make buttons more responsive */
 .btn-rounded {
   border-radius: 3.125rem;
-  padding: 0.5rem 2rem;
-  flex: 1; /* Makes buttons take equal width */
+  padding: 0.75rem 1.5rem;
+  flex: 1;
+  min-width: 7.5rem; /* Minimum button width */
+}
+
+/* Add specific media query for smaller screens */
+@media (max-height: 700px) {
+  .login-box {
+    padding: 1.5rem;
+    margin: 0.5rem 0;
+  }
+  
+  .form-control {
+    padding: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  /* Reduce vertical spacing */
+  .mb-3 {
+    margin-bottom: 0.75rem !important;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-image: url('images/background.jpg');
+  background-size: cover;
+  background-position: center;
+  /* Remove overflow: hidden to allow scrolling */
+  overflow-y: auto; /* Changed from overflow: hidden */
+}
+
+.register-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 2rem;
+  /* Add overflow property to allow scrolling */
+  overflow-y: auto;
+}
+
+.register-box {
+  background: #E8E8E5;
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  /* Ensure the box doesn't exceed viewport height */
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Add responsive adjustments for smaller screens */
+@media (max-height: 700px) {
+  .register-box {
+    padding: 1.5rem;
+  }
+  
+  .logo-img {
+    max-height: 5rem; /* Use relative units */
+  }
+  
+  .mb-3 {
+    margin-bottom: 0.75rem !important;
+  }
 }
