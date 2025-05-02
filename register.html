@@ -1,6 +1,7 @@
 <!-- register.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +18,7 @@
       background-position: center;
       overflow: hidden;
     }
+
     .register-wrapper {
       min-height: 100vh;
       display: flex;
@@ -26,6 +28,7 @@
       background-color: rgba(0, 0, 0, 0.6);
       padding: 2rem;
     }
+
     .register-box {
       background: #E8E8E5;
       border-radius: 1.5rem;
@@ -35,20 +38,24 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       text-align: center;
     }
+
     .register-box h2 {
       font-weight: 700;
       margin-bottom: 1.5rem;
     }
+
     .btn-rounded {
       border-radius: 50px;
       padding: 0.5rem 2rem;
     }
+
     .logo-img {
       max-height: 150px;
       margin-bottom: 1rem;
     }
   </style>
 </head>
+
 <body>
 
   <div class="register-wrapper">
@@ -114,8 +121,34 @@
         return;
       }
 
+      const requestBody = {
+        email: email,
+        password: password,
+        nickname: nickname,
+        major: major,
+        type: userType.toUpperCase()
+      }
+      console.log(`Register request body ${requestBody}`);
+      fetch('https://badger-cs-backend.onrender.com/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      }).then(response => {
+        if (!response.ok) {
+          throw new Error("Email has been used");
+        }
+        return response.json();
+      }).then(data => {
+        alert(`Login successful! Login with your email!`);
+      }).catch(error => {
+      console.error("Error during API request:", error);
+      alert(error.message || "An error occurred. Please try again later.");
+    });
       alert("Registration successful! (mock)");
     });
   </script>
 </body>
+
 </html>
