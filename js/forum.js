@@ -57,7 +57,7 @@ function checkLoginStatus() {
             profileLink.appendChild(userIcon);
 
             const username = document.createElement('span');
-            username.textContent = `User_${userId.substring(0, 4)}`;
+            username.textContent = nickname;
             profileLink.appendChild(username);
 
             // Create logout button
@@ -79,7 +79,7 @@ function checkLoginStatus() {
             // Update username in the post creation modal
             const currentUserNameEl = document.getElementById('currentUserName');
             if (currentUserNameEl) {
-                currentUserNameEl.textContent = `User_${userId.substring(0, 4)}`;
+                currentUserNameEl.textContent = nickname;
             }
         }
     } else {
@@ -263,7 +263,7 @@ function setupPostInteractions() {
     <img src="https://api.dicebear.com/9.x/pixel-art/svg?seed=user15" class="avatar-img" alt="User Avatar">
 </div>                    <div class="comment-bubble">
                         <div class="comment-header d-flex justify-content-between">
-                            <strong>User_${userId.substring(0, 4)}</strong>
+                            <strong>${localStorage.getItem("nickname")}</strong>
                             <small class="text-muted">Just now</small>
                         </div>
                         <p class="mb-0">${commentText}</p>
@@ -632,7 +632,7 @@ function createNewPost(content) {
                 <div class="post-avatar-container">
     <img src="https://api.dicebear.com/9.x/pixel-art/svg?seed=user16" class="avatar-img" alt="User Avatar">
 </div>                <div>
-                    <h6 class="mb-0">User_${userId.substring(0, 4)}</h6>
+                    <h6 class="mb-0">${localStorage.getItem("nickname")}</h6>
                     <small class="text-muted">Just now</small>
                 </div>
                 <div class="ms-auto">
@@ -811,7 +811,7 @@ function displayPost(post) {
                 <div class="post-avatar-container">
     <img src="https://api.dicebear.com/9.x/pixel-art/svg?seed=user17" class="avatar-img" alt="User Avatar">
 </div>                <div>
-                    <h6 class="mb-0">User_${postUserId.substring(0, 4)}</h6>
+                    <h6 class="mb-0">${localStorage.getItem("nickname")}</h6>
                     <small class="text-muted">${dateString}</small>
                 </div>
                 ${isCurrentUserPost ? `
@@ -900,7 +900,7 @@ function loadUserPosts() {
                         <div class="post-avatar-container">
     <img src="https://api.dicebear.com/9.x/pixel-art/svg?seed=user18" class="avatar-img" alt="User Avatar">
 </div>                        <div>
-                            <h6 class="mb-0">User_${userId.substring(0, 4)}</h6>
+                            <h6 class="mb-0">${localStorage.getItem("nickname")}</h6>
                             <small class="text-muted">${dateString}</small>
                         </div>
                         <div class="ms-auto">
@@ -954,7 +954,7 @@ function loadUserPosts() {
     <img src="https://api.dicebear.com/9.x/pixel-art/svg?seed=user19" class="avatar-img" alt="User Avatar">
 </div>                            <div class="comment-bubble">
                                 <div class="comment-header d-flex justify-content-between">
-                                    <strong>User_${userId.substring(0, 4)}</strong>
+                                    <strong>${localStorage.getItem("nickname")}</strong>
                                     <small class="text-muted">${commentDateString}</small>
                                 </div>
                                 <p class="mb-0">${comment.text}</p>

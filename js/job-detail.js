@@ -965,7 +965,7 @@ function checkLoginStatus() {
             profileLink.appendChild(userIcon);
             
             const username = document.createElement('span');
-            username.textContent = `User_${userId.substring(0, 4)}`;
+            username.textContent = `${localStorage.getItem("nickname")}`;
             profileLink.appendChild(username);
             
             // Create logout button
