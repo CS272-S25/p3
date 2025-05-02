@@ -30,6 +30,8 @@ document.addEventListener('DOMContentLoaded', function () {
  */
 function checkLoginStatus() {
     const userId = localStorage.getItem('userId');
+    const nickname = localStorage.getItem('nickname');
+    const email = localStorage.getItem('email')
     const authButtonsEl = document.getElementById('authButtons');
     const userProfileEl = document.getElementById('userProfile');
 
@@ -378,7 +380,8 @@ function setupCreatePostModal() {
             const currentUserNameEl = document.getElementById('currentUserName');
             if (currentUserNameEl) {
                 const userId = localStorage.getItem('userId');
-                currentUserNameEl.textContent = `User_${userId.substring(0, 4)}`;
+                const nickname = localStorage.getItem('nickname');
+                currentUserNameEl.textContent = nickname;
             }
         }
     });
