@@ -34,6 +34,8 @@ document.getElementById('signin-form').addEventListener('submit', function(event
     .then(data => {
       // alert(`Login successful! User ID: ${data.userId}`);
       localStorage.setItem('userId', data.userId);      
+      localStorage.setItem('nickname', data.nickname);
+      localStorage.setItem('email', data.email);
       window.location.href = 'jobs.html';
     })
     .catch(error => {

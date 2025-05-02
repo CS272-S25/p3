@@ -176,6 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 function checkLoginStatus() {
     const userId = localStorage.getItem('userId');
+    const nickname = localStorage.getItem('nickname');
+    const email = localStorage.getItem('email');
     
     if (!userId) {
         // Redirect to login page if not logged in
@@ -185,9 +187,8 @@ function checkLoginStatus() {
     
     // Set user ID in userData
     userData.userId = userId;
-    
-    // Create random username based on user ID
-    userData.username = `User_${userId.substring(0, 4)}`;
+    userData.username = nickname; 
+    userData.email = email; 
     
     // Update profile information
     updateProfileInfo();
