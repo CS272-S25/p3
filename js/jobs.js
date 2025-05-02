@@ -191,8 +191,11 @@ function checkLoginStatus() {
             logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
             logoutBtn.addEventListener('click', () => {
                 localStorage.removeItem('userId');
+                localStorage.removeItem("email");
+                localStorage.removeItem("nickname");
                 window.location.reload();
             });
+
             
             // Add both elements to the profile container
             userProfileEl.appendChild(profileLink);

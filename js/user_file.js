@@ -489,6 +489,8 @@ function clearAllSavedJobs() {
 function handleLogout() {
     // Clear userId from localStorage
     localStorage.removeItem('userId');
+    localStorage.removeItem("email");
+    localStorage.removeItem("nickname");
     
     // Redirect to login page
     window.location.href = 'sign-in.html';
