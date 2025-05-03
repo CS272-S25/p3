@@ -6,6 +6,7 @@ body {
   background-size: cover;
   background-position: center;
   /* Remove any overflow: hidden that might be preventing scrolling */
+
 }
 
 .login-wrapper {
@@ -15,6 +16,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  /* Dark overlay for better text visibility */
   background-color: rgba(0, 0, 0, 0.6);
   padding: 2rem;
   box-sizing: border-box;
@@ -26,7 +28,8 @@ body {
   background: #E8E8E5;
   border-radius: 1.5rem;
   padding: 2rem;
-  width: 90%;  /* Use percentage instead of fixed width */
+  width: 90%;
+  max-width: 90%;
   max-width: 25rem;
   box-shadow: 0 0.625rem 1.875rem rgba(0, 0, 0, 0.2);
   text-align: center;
@@ -34,6 +37,11 @@ body {
   max-height: 90vh;
   overflow-y: auto;
   margin: 1rem 0;
+}
+
+.logo-img {
+  max-height: 150px;
+  margin-bottom: 1rem;
 }
 
 /* Make form elements more responsive */
@@ -49,7 +57,8 @@ body {
   justify-content: space-between;
   width: 100%;
   gap: 1rem;
-  flex-wrap: wrap; /* Allow buttons to wrap on very small screens */
+  flex-wrap: wrap;
+  /* Allow buttons to wrap on very small screens */
 }
 
 /* Make buttons more responsive */
@@ -57,7 +66,8 @@ body {
   border-radius: 3.125rem;
   padding: 0.75rem 1.5rem;
   flex: 1;
-  min-width: 7.5rem; /* Minimum button width */
+  min-width: 7.5rem;
+  /* Minimum button width */
 }
 
 /* Add specific media query for smaller screens */
@@ -66,12 +76,12 @@ body {
     padding: 1.5rem;
     margin: 0.5rem 0;
   }
-  
+
   .form-control {
     padding: 0.5rem;
     margin-bottom: 0.75rem;
   }
-  
+
   /* Reduce vertical spacing */
   .mb-3 {
     margin-bottom: 0.75rem !important;
@@ -82,11 +92,9 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-image: url('images/background.jpg');
+  background-image: url('../images/background.jpg');
   background-size: cover;
   background-position: center;
-  /* Remove overflow: hidden to allow scrolling */
-  overflow-y: auto; /* Changed from overflow: hidden */
 }
 
 .register-wrapper {
@@ -119,11 +127,12 @@ body {
   .register-box {
     padding: 1.5rem;
   }
-  
+
   .logo-img {
-    max-height: 5rem; /* Use relative units */
+    max-height: 5rem;
+    /* Use relative units */
   }
-  
+
   .mb-3 {
     margin-bottom: 0.75rem !important;
   }
