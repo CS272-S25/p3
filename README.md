@@ -26,7 +26,7 @@ The platform is designed for CS students, recent graduates, and university caree
 - **Job Detail Page**: Includes company info, salary, job type, required skills, and application tracking features.
 - **Community Forum**: Users can post updates, share resources, like and comment, and view trending career topics.
 - **User Dashboard(TO-DO)**: Personalized overview with saved jobs, applications, and uploaded resumes.
-- **Authentication Pages(TO DO)**: Registration and login forms with plans to support university SSO (OAuth2 + JWT).
+- **Authentication Pages(TO-DO)**: Registration and login forms with plans to support university SSO (OAuth2 + JWT).
 - **Interview Preparation(TO-DO)**: Tips, practice questions, and resources curated for CS students.
 
 ## Development Practices

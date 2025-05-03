@@ -20,7 +20,7 @@
 </head>
 
 <body>
-    <!-- Navigation Bar -->
+        <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container">
             <a class="navbar-brand" href="index.html">
@@ -132,9 +132,10 @@
                 <div class="card shadow-sm mb-4">
                     <div class="card-body">
                         <div class="input-group">
+                            <label for="searchJobs" class="visually-hidden">Search for jobs</label>
                             <input type="text" id="searchJobs" class="form-control"
                                 placeholder="Search for jobs, skills, or companies...">
-                            <button class="btn btn-primary" type="button" id="searchButton">
+                            <button class="btn btn-primary" type="button" id="searchButton" aria-label="Search for jobs">
                                 <i class="fas fa-search"></i> Search
                             </button>
                         </div>
@@ -148,7 +149,7 @@
                         <a href="#" class="text-decoration-none">View more</a>
                     </div>
                     <div class="card-body p-0">
-                        <div class="row g-0" id="internshipListings">
+                        <div class="row g-0" id="internshipListings" aria-live="polite">
                             <!-- Job listings will be loaded here by JavaScript -->
                             <div class="col-12 text-center py-4">
                                 <div class="spinner-border text-primary" role="status">
@@ -166,7 +167,7 @@
                         <a href="#" class="text-decoration-none">View more</a>
                     </div>
                     <div class="card-body p-0">
-                        <div class="row g-0" id="fullTimeListings">
+                        <div class="row g-0" id="fullTimeListings" aria-live="polite">
                             <!-- Job listings will be loaded here by JavaScript -->
                             <div class="col-12 text-center py-4">
                                 <div class="spinner-border text-primary" role="status">
@@ -184,7 +185,7 @@
                         <a href="#" id="clearSavedJobs" class="text-decoration-none">Clear All</a>
                     </div>
                     <div class="card-body p-0">
-                        <div class="row g-0" id="savedJobsListings">
+                        <div class="row g-0" id="savedJobsListings" aria-live="polite">
                             <!-- Saved jobs will be loaded here by JavaScript -->
                             <div class="col-12 py-4 text-center" id="noSavedJobs">
                                 <p class="text-muted">You haven't saved any jobs yet.</p>
@@ -243,7 +244,8 @@
         <div class="col-md-4 job-card">
             <div class="card m-2 h-100 position-relative">
                 <div class="position-absolute top-0 end-0 m-2">
-                    <button class="btn btn-sm btn-outline-secondary bookmark-btn border-0" data-job-id="">
+                    <button class="btn btn-sm btn-outline-secondary bookmark-btn border-0" data-job-id=""
+                        aria-label="Bookmark this job">
                         <i class="far fa-bookmark"></i>
                     </button>
                 </div>

@@ -11,19 +11,20 @@
   <link rel="stylesheet" href="css/job-detail.css">
 </head>
 <body>
+  <a href="#mainContent" class="visually-hidden-focusable">Skip to Content</a>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container">
       <a class="navbar-brand" href="index.html">
-        <img src="images/badgercs-logo.svg" alt="BadgerCS Logo" width="30" height="30">
+        <img src="images/badgercs-logo.svg" alt="BadgerCS Career Nexus Logo" width="30" height="30">
         BadgerCS Career Nexus
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
           <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link active" href="jobs.html">Jobs</a></li>
+          <li class="nav-item"><a class="nav-link active" href="jobs.html" aria-current="page">Jobs</a></li>
           <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
           <li class="nav-item"><a class="nav-link" href="forum.html">Community</a></li>
           <li class="nav-item"><a class="nav-link" href="interview-prep.html">Interview Prep</a></li>
@@ -49,53 +50,55 @@
     </div>
   </nav>
 
-  <div class="container my-4">
+  <div class="container my-4" id="mainContent">
     <div class="row">
       <div class="col-lg-8">
-        <div id="jobDetailLoader" class="text-center py-5">
-          <div class="spinner-border text-primary" role="status"></div>
+        <div id="jobDetailLoader" class="text-center py-5" aria-live="polite">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading job details...</span>
+          </div>
         </div>
         <div id="jobDetailContent" class="d-none">
           <div class="d-flex align-items-center mb-4">
-            <img id="companyLogo" class="me-3" width="64" height="64">
+            <img id="companyLogo" class="me-3" width="64" height="64" alt="Company Logo">
             <div>
-              <h1 id="jobTitle" class="h3 mb-1"></h1>
+              <h1 id="jobTitle" class="h3 mb-1">Job Title</h1>
               <p class="mb-0">
-                <span id="companyName" class="fw-bold"></span> ・ <span id="jobLocation"></span>
+                <span id="companyName" class="fw-bold">Company Name</span> ・ <span id="jobLocation">Location</span>
               </p>
             </div>
           </div>
           
           <!-- Action Buttons - Added missing buttons -->
           <div class="action-buttons mb-4">
-            <button id="applyNowBtn" class="btn btn-primary me-2">
+            <button id="applyNowBtn" class="btn btn-primary me-2" aria-label="Apply for this job">
               <i class="fas fa-paper-plane me-1"></i> Apply Now
             </button>
-            <button id="saveJobBtn" class="btn btn-outline-secondary me-2">
+            <button id="saveJobBtn" class="btn btn-outline-secondary me-2" aria-label="Save this job">
               <i class="far fa-bookmark me-1"></i> <span id="saveJobText">Save Job</span>
             </button>
-            <button id="shareJobBtn" class="btn btn-outline-secondary me-2">
+            <button id="shareJobBtn" class="btn btn-outline-secondary me-2" aria-label="Share this job">
               <i class="fas fa-share-alt me-1"></i> Share
             </button>
-            <button id="addToApplicationsBtn" class="btn btn-outline-secondary">
+            <button id="addToApplicationsBtn" class="btn btn-outline-secondary" aria-label="Track this application">
               <i class="fas fa-clipboard-list me-1"></i> Track Application
             </button>
           </div>
           
           <div class="row mb-4">
-            <div class="col-md-3 col-6"><span class="text-muted">Salary</span><br><span id="jobSalary" class="fw-bold"></span></div>
-            <div class="col-md-3 col-6"><span class="text-muted">Job Type</span><br><span id="jobType" class="fw-bold"></span></div>
-            <div class="col-md-3 col-6"><span class="text-muted">Experience</span><br><span id="jobExperience" class="fw-bold"></span></div>
-            <div class="col-md-3 col-6"><span class="text-muted">Posted</span><br><span id="jobPostedDate" class="fw-bold"></span></div>
+            <div class="col-md-3 col-6"><span class="text-muted">Salary</span><br><span id="jobSalary" class="fw-bold">N/A</span></div>
+            <div class="col-md-3 col-6"><span class="text-muted">Job Type</span><br><span id="jobType" class="fw-bold">N/A</span></div>
+            <div class="col-md-3 col-6"><span class="text-muted">Experience</span><br><span id="jobExperience" class="fw-bold">N/A</span></div>
+            <div class="col-md-3 col-6"><span class="text-muted">Posted</span><br><span id="jobPostedDate" class="fw-bold">N/A</span></div>
           </div>
-          <div id="jobDescription" class="mb-4"></div>
-          <h5>Required Skills</h5><ul id="skillsList"></ul>
-          <h5>Qualifications</h5><ul id="qualificationsList"></ul>
+          <div id="jobDescription" class="mb-4" aria-labelledby="jobTitle"></div>
+          <h5>Required Skills</h5><ul id="skillsList" aria-label="Required skills"></ul>
+          <h5>Qualifications</h5><ul id="qualificationsList" aria-label="Qualifications"></ul>
           <h5 class="mt-4">Company Info</h5>
           <p id="companyDescription"></p>
           <p><strong>Industry:</strong> <span id="companyIndustry"></span></p>
           <p><strong>Size:</strong> <span id="companySize"></span></p>
-          <p><strong>Website:</strong> <a id="companyWebsite" href="#" target="_blank"></a></p>
+          <p><strong>Website:</strong> <a id="companyWebsite" href="#" target="_blank" aria-label="Company website"></a></p>
           <h5 class="mt-4">Company Insights</h5>
           <p><strong>Employee Rating:</strong> <span id="employeeRating"></span></p>
           <p><strong>Work-Life Balance:</strong> <span id="workLifeBalance"></span></p>
@@ -111,9 +114,11 @@
             <h5 class="mb-0">Similar Jobs</h5>
           </div>
           <div class="card-body p-0">
-            <ul id="similarJobsList" class="list-group list-group-flush">
+            <ul id="similarJobsList" class="list-group list-group-flush" aria-live="polite">
               <li class="list-group-item text-center py-3">
-                <div class="spinner-border text-primary" role="status"></div>
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading similar jobs...</span>
+                </div>
               </li>
             </ul>
           </div>
