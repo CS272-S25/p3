@@ -17,17 +17,17 @@ The platform is designed for CS students, recent graduates, and university caree
 - **HTML5** – Semantic structure and accessibility
 - **CSS3 + Bootstrap 5** – Responsive and consistent styling across devices
 - **JavaScript (ES6)** – Dynamic interactions and DOM manipulation
-- **RESTful Architecture (Planned)** – Frontend-backend communication using JSON
-- **Docker (Planned)** – Containerized deployment for environment parity
+- **RESTful Architecture** – Frontend-backend communication using JSON
+- **Docker** – Containerized deployment for environment parity
 
 ## Key Features
 
 - **Job Listings Page**: Filterable listings by job type, location, and experience. Each listing links to a detailed job view.
 - **Job Detail Page**: Includes company info, salary, job type, required skills, and application tracking features.
 - **Community Forum**: Users can post updates, share resources, like and comment, and view trending career topics.
-- **User Dashboard**: Personalized overview with saved jobs, applications, and uploaded resumes.
-- **Authentication Pages**: Registration and login forms with plans to support university SSO (OAuth2 + JWT).
-- **Interview Preparation**: Tips, practice questions, and resources curated for CS students.
+- **User Dashboard(TO-DO)**: Personalized overview with saved jobs, applications, and uploaded resumes.
+- **Authentication Pages(TO DO)**: Registration and login forms with plans to support university SSO (OAuth2 + JWT).
+- **Interview Preparation(TO-DO)**: Tips, practice questions, and resources curated for CS students.
 
 ## Development Practices
 
